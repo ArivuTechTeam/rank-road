@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F4E3D">
+<title>Rank Road – ArivuPro</title>
+<meta name="description" content="Day-wise study trackers for CA Foundation and CA Intermediate, January 2027.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{--ground:#F3F6F2;--surface:#fff;--ink:#000000;--ink2:#010101;--line:#D3DED6;--brand:#2E8857;--gold:#D9981E}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--ground:#0F1713;--surface:#16211B;--ink:#E6EEE8;--ink2:#A2B4A8;--line:#2A3A31;--brand:#6FBF95;--gold:#F0B444}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.5 "Source Sans 3",system-ui,sans-serif;padding:50px 16px 48px}
+main{max-width:880px;margin:0 auto}
+.brandmark{display:inline-block;background:#fff;padding:8px 16px;border-radius:12px;margin-bottom:22px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.brandmark img{height:28px;width:auto;display:block}
+h1{font:800 clamp(32px,6vw,52px)/1.05 "Bricolage Grotesque",system-ui,sans-serif;margin:8px 0 10px;letter-spacing:-.02em}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);font-weight:600}
+p.lead{color:var(--ink2);max-width:60ch;margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+a.card{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;transition:border-color .15s,transform .15s}
+a.card:hover,a.card:focus-visible{border-color:var(--brand);transform:translateY(-2px)}
+a.card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.card h2{font:700 21px/1.2 "Bricolage Grotesque",system-ui,sans-serif;margin:6px 0}
+.card p{margin:0;color:var(--ink2);font-size:14.5px}
+.dates{font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--brand);margin-top:12px}
+footer{margin-top:32px;color:var(--ink2);font-size:13px}
+@media (prefers-reduced-motion:reduce){a.card{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <div class="brandmark"><img src="assets/arivupro-logo.webp" alt="ArivuPro Academy"></div>
+  <div class="eyebrow">ArivuPro Academy · January 2027</div>
+  <h1>Rank Road</h1>
+  <p class="lead">Pick your exam. Every day of your plan is laid out — chapters, recaps, weekly tests, revisions and mocks — and you tick it off as you go. Your progress stays on this device.</p>
+  <div class="grid">
+    <a class="card" href="foundation/"><div class="eyebrow">4 papers</div><h2>CA Foundation</h2><p>Accounting, Business Laws, Quantitative Aptitude, Business Economics.</p><div class="dates">3 · 5 · 7 · 9 Jan 2027</div></a>
+    <a class="card" href="inter-group1/"><div class="eyebrow">3 papers</div><h2>CA Inter — Group I</h2><p>Advanced Accounting, Corporate &amp; Other Laws, Taxation.</p><div class="dates">2 · 4 · 6 Jan 2027</div></a>
+    <a class="card" href="inter-group2/"><div class="eyebrow">3 papers</div><h2>CA Inter — Group II</h2><p>Cost &amp; Management Accounting, Auditing &amp; Ethics, FM &amp; SM.</p><div class="dates">8 · 10 · 12 Jan 2027</div></a>
+    <a class="card" href="inter-both/"><div class="eyebrow">6 papers</div><h2>CA Inter — Both Groups</h2><p>All six Intermediate papers on one plan.</p><div class="dates">2 – 12 Jan 2027</div></a>
+  </div>
+  <footer>Exam dates as per ICAI Announcement No. 13-CA(EXAM)/JANUARY/2027 dated 23 September 2026.</footer>
+</main>
+<script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
+</body>
+</html>

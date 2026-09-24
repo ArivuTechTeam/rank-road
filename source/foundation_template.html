@@ -1,0 +1,694 @@
+<title>Rank Road Jan 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --ground:#F3F6F2; --surface:#FFFFFF; --surface-2:#E8EFE9; --ink:#000000; --ink-2:#010101; --line:#D3DED6;
+  --brand:#2E8857; --brand-ink:#FFFFFF; --sage:#8FB29C; --gold:#D9981E; --gold-soft:#FBEFD6; --sb-gold:#D9981E;
+  --hl-bg:radial-gradient(circle at 25% 45%, #1d6a3b 0%, #114929 100%);
+  --btn-grad:linear-gradient(140deg,#35a066,#14512c);
+  --pill-grad:linear-gradient(140deg,var(--sb-gold),#f0c542);
+  --fomo:#ea580c; --btn2-bg:#f4f8f6;
+  --acc:#2E7153; --law:#A34A2E; --qa:#2F5D8A; --eco:#6B4A86;
+  --acc-soft:#E1F0E7; --law-soft:#F8E4DC; --qa-soft:#DFE9F4; --eco-soft:#ECE3F3;
+  --good:#2E8B57; --warn:#C27C0E; --bad:#B8402E;
+  --shadow:0 1px 2px rgba(21,35,27,.06),0 6px 20px rgba(21,35,27,.06);
+  --r:14px;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Source Sans 3",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0F1713; --surface:#16211B; --surface-2:#1E2C24; --ink:#E6EEE8; --ink-2:#A2B4A8; --line:#2A3A31;
+    --brand:#6FBF95; --brand-ink:#0F1713; --sage:#4E7A61; --gold:#F0B444; --gold-soft:#3A2E14;
+    --acc:#6FC196; --law:#E08A6C; --qa:#7FAEDD; --eco:#B99AD6;
+    --acc-soft:#1D3328; --law-soft:#3A241C; --qa-soft:#1B2A3A; --eco-soft:#2C2238;
+    --good:#5BC98A; --warn:#E6A93B; --bad:#E57560;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0F1713; --surface:#16211B; --surface-2:#1E2C24; --ink:#E6EEE8; --ink-2:#A2B4A8; --line:#2A3A31;
+  --brand:#6FBF95; --brand-ink:#0F1713; --sage:#4E7A61; --gold:#F0B444; --gold-soft:#3A2E14;
+  --acc:#6FC196; --law:#E08A6C; --qa:#7FAEDD; --eco:#B99AD6;
+  --acc-soft:#1D3328; --law-soft:#3A241C; --qa-soft:#1B2A3A; --eco-soft:#2C2238;
+  --good:#5BC98A; --warn:#E6A93B; --bad:#E57560;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;padding-inline:16px;padding-block:20px 48px}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-2)}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);font-weight:600}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ground);padding-block:12px 10px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:15px;flex:none;object-fit:cover}
+.brand h1{font-size:19px;line-height:1.1}
+.brand small{display:block;color:var(--ink-2);font-size:12.5px}
+.stat{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 8px}
+.stat b{font-family:var(--mono);font-size:15px}
+.stat span{font-size:12px;color:var(--ink-2)}
+.flame{width:20px;height:20px}
+.lvl{min-width:180px}
+.lvlbar{height:6px;border-radius:6px;background:var(--surface-2);overflow:hidden;margin-top:3px}
+.lvlbar i{display:block;height:100%;background:var(--gold);border-radius:6px;transition:width .5s}
+
+nav.tabs{display:flex;gap:4px;margin-block:14px 18px;overflow-x:auto;padding-bottom:2px}
+nav.tabs button{border:1px solid transparent;background:none;padding:8px 14px;border-radius:999px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+nav.tabs button[aria-selected="true"]{background:var(--hl-bg);color:#fff}
+nav.tabs button:hover:not([aria-selected="true"]){border-color:var(--line);color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:16px}
+@media (max-width:760px){.hero{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.countdown{background:var(--hl-bg);color:#fff;border:none;position:relative;overflow:hidden}
+.countdown .eyebrow{color:inherit;opacity:.8}
+.cd-row{display:flex;gap:18px;align-items:flex-end;margin-top:6px;flex-wrap:wrap}
+.cd-big{font-family:var(--display);font-weight:800;font-size:64px;line-height:.9;letter-spacing:-.03em;color:var(--fomo)}
+.cd-big small{font-size:18px;font-weight:600;letter-spacing:0;margin-left:6px;color:#fff}
+.papers{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.paper{font-size:12.5px;border:1px solid color-mix(in srgb,currentColor 35%,transparent);border-radius:8px;padding:4px 8px}
+.paper.done{opacity:.5;text-decoration:line-through}
+.paper.next{background:color-mix(in srgb,currentColor 16%,transparent);font-weight:700}
+.quote{font-size:15.5px;line-height:1.45}
+.quote b{font-family:var(--display)}
+
+/* day */
+.daynav{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.daynav h2{font-size:26px}
+.iconbtn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:18px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px;background:var(--surface-2);color:var(--ink-2)}
+.chip.phase-Mock,.chip.phase-EXAM{background:var(--law-soft);color:var(--law)}
+.chip.phase-Revision{background:var(--acc-soft);color:var(--acc)}
+.chip.phase-Final{background:var(--pill-grad);color:#241A05}
+.linkbtn{border:none;background:none;color:var(--brand);font-weight:600;padding:0;text-decoration:underline;text-underline-offset:3px}
+
+.daygrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px}
+@media (max-width:900px){.daygrid{grid-template-columns:1fr}}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.block-h{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.block-h h3{font-size:16.5px}
+.block-h .hrs{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+.sw{width:10px;height:28px;border-radius:4px;flex:none}
+.s-Acc{--c:var(--acc);--cs:var(--acc-soft)} .s-Law{--c:var(--law);--cs:var(--law-soft)} .s-QA{--c:var(--qa);--cs:var(--qa-soft)} .s-Eco{--c:var(--eco);--cs:var(--eco-soft)}
+.s-Test,.s-Review,.s-All,.s-Rest,.s-Recap{--c:var(--gold);--cs:var(--gold-soft)}
+.sw{background:var(--c)}
+.task{display:flex;gap:12px;padding:11px 16px;border-top:1px solid var(--line);align-items:flex-start;cursor:pointer;transition:background .15s}
+.task:first-of-type{border-top:none}
+.task:hover{background:color-mix(in srgb,var(--cs) 55%,transparent)}
+.task input{position:absolute;opacity:0;pointer-events:none}
+.box{width:22px;height:22px;border-radius:7px;border:2px solid var(--c);flex:none;margin-top:1px;display:grid;place-items:center;transition:background .15s,transform .15s}
+.box svg{width:14px;height:14px;stroke:var(--surface);stroke-width:3;fill:none;opacity:0}
+.task.on .box{background:var(--c);transform:scale(1.05)}
+.task.on .box svg{opacity:1}
+.task.on .tt{color:var(--ink-2);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--ink-2) 60%,transparent)}
+.tk{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:2px}
+.tag{font-size:11px;font-weight:700;letter-spacing:.04em;border-radius:5px;padding:1px 6px;background:var(--cs);color:var(--c)}
+.pr{font-size:10.5px;font-weight:700;letter-spacing:.06em;border-radius:5px;padding:1px 6px}
+.pr-HIGH{background:var(--law-soft);color:var(--law)} .pr-MEDIUM{background:var(--gold-soft);color:var(--warn)} .pr-LOW{background:var(--surface-2);color:var(--ink-2)}
+.tt{font-size:15px}
+.tt small{display:block;color:var(--ink-2);font-size:13px;margin-top:2px}
+.th{margin-left:auto;font-family:var(--mono);font-size:12.5px;color:var(--ink-2);white-space:nowrap;padding-left:8px}
+.recapnote{font-size:13px;color:var(--ink-2)}
+
+.side .panel{margin-bottom:14px}
+.ring{display:flex;align-items:center;gap:14px}
+.ring svg{width:92px;height:92px;flex:none}
+.ring .big{font-family:var(--display);font-size:22px;font-weight:800;line-height:1.15}
+label.fld{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin:12px 0 4px}
+input[type=number],input[type=text],input[type=tel],input[type=email],textarea{width:100%;border:1px solid var(--line);background:var(--ground);border-radius:10px;padding:8px 10px}
+textarea{min-height:64px;resize:vertical}
+.pips{display:flex;gap:6px}
+.pips button{flex:1;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--ground);font-weight:700;font-size:13px}
+.pips button.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.btn{border:none;background:var(--btn-grad);color:#fff;font-weight:700;border-radius:10px;padding:9px 14px}
+.btn.ghost{background:var(--btn2-bg);color:var(--brand)}
+.btn.gold{background:var(--gold);color:#241A05}
+
+/* calendar */
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-2);margin-bottom:12px;align-items:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+.months{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.month h3{font-size:16px;margin-bottom:8px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .dow{font-size:11px;color:var(--ink-2);text-align:center;font-weight:600}
+.cell{aspect-ratio:1;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-family:var(--mono);font-size:12px;display:grid;place-items:center;position:relative;padding:0}
+.cell.off{visibility:hidden}
+.cell.today{outline:2px solid var(--gold);outline-offset:1px}
+.cell.sel{border-color:var(--ink)}
+.cell .dot{position:absolute;bottom:3px;width:5px;height:5px;border-radius:50%}
+.cell.exam{background:var(--law);color:#fff;border-color:var(--law);font-weight:700}
+.cell.mock .dot{background:var(--law)}
+.cell.sun .dot{background:var(--gold)}
+
+/* chapters */
+.subjgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px}
+.subjcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;gap:12px;align-items:center}
+.subjcard h3{font-size:15px}
+.subjcard svg{width:62px;height:62px;flex:none}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);font-weight:700;background:var(--surface-2);position:sticky;top:0}
+tr.subjrow td{background:var(--surface-2);font-family:var(--display);font-weight:700}
+.pbar{height:8px;border-radius:6px;background:var(--surface-2);overflow:hidden;min-width:90px}
+.pbar i{display:block;height:100%;background:var(--c)}
+.tick{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:7px;background:var(--surface-2);color:var(--ink-2);font-size:13px;font-weight:700}
+.tick.y{background:var(--good);color:#fff}
+.stars{display:flex;gap:2px}
+.stars button{border:none;background:none;padding:2px;font-size:16px;color:var(--line);line-height:1}
+.stars button.on{color:var(--gold)}
+.weak{font-size:11px;font-weight:700;color:var(--bad)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filters button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-weight:600;font-size:13px}
+.filters button.on{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+
+/* scores */
+.scoregrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:16px}
+.mock h3{font-size:16px;margin-bottom:10px}
+.srow{display:grid;grid-template-columns:1fr 84px 60px;gap:8px;align-items:center;margin-bottom:8px;font-size:14px}
+.srow input{text-align:right;font-family:var(--mono)}
+.verdict{font-size:13px;font-weight:600;margin-top:8px;padding:8px 10px;border-radius:9px;background:var(--surface-2)}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{fill:var(--ink-2);font-family:var(--mono);font-size:11px}
+
+/* badges */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.badge{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;gap:12px;align-items:center}
+.medal{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--surface-2);color:var(--ink-2);font-family:var(--display);font-weight:800;font-size:18px}
+.badge.got .medal{background:var(--gold);color:#241A05;box-shadow:0 0 0 4px var(--gold-soft)}
+.badge:not(.got){opacity:.62}
+.badge h3{font-size:14.5px}
+.badge p{margin:2px 0 0;font-size:12.5px;color:var(--ink-2)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--ground);padding:10px 16px;border-radius:12px;font-weight:600;transition:transform .3s;z-index:50;max-width:calc(100% - 32px)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:40;width:100%;height:100%}
+.modal{position:fixed;inset:0;background:rgba(10,20,14,.55);display:grid;place-items:center;z-index:60;padding:16px}
+.modal .panel{max-width:440px;width:100%;box-shadow:var(--shadow)}
+.modal h2{font-size:24px;margin-bottom:6px}
+.leadgate{text-align:center;padding:30px 28px}
+.leadgate .logo{width:44px;height:44px;font-size:17px;margin:0 auto 14px}
+.leadgate .eyebrow{margin-bottom:2px}
+.leadgate p.muted{margin:0 0 22px}
+.leadgate form{text-align:left}
+.leadgate .fld{margin:14px 0 4px}
+.leadgate .fld:first-of-type{margin-top:0}
+.leadgate .lead-err{font-size:12px;color:var(--bad);min-height:16px;margin-top:4px;text-align:left}
+.leadgate .btn{width:100%;padding:12px 14px;font-size:15.5px;margin-top:18px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.sectionhead{display:flex;align-items:baseline;gap:12px;margin:6px 0 12px;flex-wrap:wrap}
+.sectionhead h2{font-size:22px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <img class="logo" src="../assets/arivupro-icon.webp" alt="ArivuPro">
+      <div><h1>Rank Road</h1><small id="hello">CA Foundation · January 2027</small></div>
+    </div>
+    <div class="stat" title="Days in a row with 80%+ of the plan done">
+      <svg class="flame" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-6 1-9.5z" fill="var(--gold)"/></svg>
+      <b id="streak">0</b><span>day streak</span>
+    </div>
+    <div class="stat lvl" title="Earn XP by ticking off tasks">
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;gap:8px"><b id="lvlname" style="font-family:var(--body);font-size:13px">Aspirant</b><span class="num" id="xp">0 XP</span></div>
+        <div class="lvlbar"><i id="lvlbar" style="width:0%"></i></div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="today" aria-selected="true">Today</button>
+    <button role="tab" data-tab="calendar" aria-selected="false">Calendar</button>
+    <button role="tab" data-tab="chapters" aria-selected="false">Chapters</button>
+    <button role="tab" data-tab="scores" aria-selected="false">Mocks & tests</button>
+    <button role="tab" data-tab="badges" aria-selected="false">Badges</button>
+    <button role="tab" data-tab="settings" aria-selected="false">Backup</button>
+  </nav>
+
+  <main id="view"></main>
+</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const PLAN = __PLAN__;
+const SUBJ = {Acc:"Accounting",Law:"Business Laws",QA:"Quantitative Aptitude",Eco:"Business Economics",Test:"Weekly test",Review:"Review & weekly recap",All:"Mock prep",Rest:"Rest",Recap:"Morning recap"};
+const PAPERS = [["2027-01-03","Acc","Paper 1 · Accounting","14:00"],["2027-01-05","Law","Paper 2 · Business Laws","14:00"],["2027-01-07","QA","Paper 3 · Quantitative Aptitude","14:00"],["2027-01-09","Eco","Paper 4 · Business Economics","14:00"]];
+const LEVELS = [[0,"Aspirant"],[300,"Foundation Scholar"],[900,"Ledger Keeper"],[1800,"Case-Law Cracker"],[3000,"Audit Ready"],[4500,"Merit Contender"],[6500,"Rank Holder"]];
+const TIPS = [
+ ["Write, don't read.","In Accounting, a solution you only read is a solution you will not reproduce in the hall. Close the book and write the entry."],
+ ["Provision, then conclusion.","Every Law case answer: facts → section → analysis → conclusion. Examiners mark the structure before the style."],
+ ["Negative marking rewards restraint.","In QA and Economics, a blank costs 0 and a blind guess costs ¼. Guess only after eliminating two options."],
+ ["Yesterday first.","The morning recap is the cheapest marks you will ever earn — ten minutes of recall saves an hour of re-reading in December."],
+ ["Formats are free marks.","A correct Balance Sheet heading, a narration under every entry, working notes numbered — presentation carries marks on its own."],
+ ["Your Error Log is your syllabus.","From Revision 1 on, the mistakes you have already made are the most likely ones you will make again. Re-solve them."],
+ ["The 2 pm habit.","Your papers start at 2:00 pm. Train your brain to peak then — solve your hardest questions in that slot every day."],
+ ["Contract Act is a quarter of Law.","Units on offer, consideration and free consent turn up in almost every attempt. Know the landmark cases by name."],
+ ["LR is 20 easy marks.","Series, coding, directions, seating, blood relations — speed drills here convert straight into rank marks."],
+ ["Sunday is not a holiday, it is a mirror.","The weekly test shows what actually stuck. Score it honestly and fix the gap before Monday."],
+ ["Small wins compound.","Tick one task. Then the next. A day finished at 80% is still a streak kept."],
+ ["Sleep is study.","Memory consolidates overnight. 7–8 hours in December is part of the plan, not a break from it."],
+ ["Diagrams speak in Economics.","A labelled demand curve or cost curve answers the MCQ before you read the options."],
+ ["Reading time is thinking time.","Papers 1 and 2 give you 1:45–2:00 pm. Use it to choose your four optional questions, not to panic."],
+ ["Buffer means catch-up.","If a day slips, clear it in Sunday's review block — never push it onto Monday's plan."],
+ ["Partnership is one sequence.","Ratios → goodwill → revaluation → reserves → capital accounts → balance sheet. Same order, every question."],
+ ["Speed comes from recall.","In Mathematics of Finance and Statistics, knowing the formula cold is half the time saved."],
+ ["Mocks are rehearsals.","Sit every mock at the real time, with the real duration. The hall should feel familiar on 3 January."],
+ ["Rank is consistency.","There is no single heroic day in this plan. There are a hundred ordinary ones, done."],
+ ["One page per chapter.","Your session recaps build the summary sheets you will use in the last week. Write them for your future self."],
+];
+const KEY = "arivupro-rankroad-jan27-v1";
+
+/* ---------- state ---------- */
+const LEAD_KEY = "arivupro-rankroad-lead";
+let S = {name:"", phone:"", email:"", leadSent:false, days:{}, scores:{}, tests:{}, rating:{}, seenBadges:[]};
+try{ const raw = localStorage.getItem(KEY); if(raw) S = Object.assign(S, JSON.parse(raw)); }catch(e){}
+if(!S.leadSent){ try{ const raw = localStorage.getItem(LEAD_KEY); if(raw){ const shared = JSON.parse(raw); if(shared && shared.leadSent){ S.name = S.name || shared.name; S.phone = S.phone || shared.phone; S.email = S.email || shared.email; S.leadSent = true; } } }catch(e){} }
+let saveT=null;
+function flush(){ clearTimeout(saveT); try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function save(){ clearTimeout(saveT); saveT=setTimeout(flush,150); }
+addEventListener("pagehide",flush); document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") flush(); });
+
+/* ---------- lead capture ---------- */
+const LEAD_URL = "https://script.google.com/macros/s/AKfycbwnI7kau0krWyqoa4Zc7Q-PmsEj7CWLJhLaGBaPex37O_e8Itj-2MgIR53_lJyqVtyo1A/exec";
+function normPhone(v){ return (v||"").replace(/\D/g,"").replace(/^91(\d{10})$/,"$1"); }
+function validPhone(v){ return /^[6-9]\d{9}$/.test(normPhone(v)); }
+function validEmail(v){ return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test((v||"").trim()); }
+function sendLead(data){
+  if(!LEAD_URL || LEAD_URL.indexOf("PASTE_")===0) return Promise.reject(new Error("lead endpoint not configured"));
+  return fetch(LEAD_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({ts:new Date().toISOString(),app:"foundation"},data))});
+}
+function saveSharedLead(d){ try{ localStorage.setItem(LEAD_KEY, JSON.stringify(d)); }catch(e){} }
+function maybeShowLeadGate(){ if(!S.leadSent && navigator.onLine && !document.querySelector(".modal")) welcome(); }
+
+/* ---------- course-progress tracking ---------- */
+function planPct(){
+  let done=0, total=0;
+  DAYS.forEach(d=>{ const t=TASKS[d.d]; total+=t.length; done+=t.filter(x=>isDone(d.d,x.id)).length; });
+  return total? Math.round((done/total)*100) : 0;
+}
+function sendProgress(useBeacon){
+  if(!S.leadSent) return;
+  const payload = {type:"progress",name:S.name,phone:S.phone,email:S.email,course:"CA Foundation",pct:planPct()};
+  try{
+    if(useBeacon && navigator.sendBeacon){
+      navigator.sendBeacon(LEAD_URL, new Blob([JSON.stringify(payload)],{type:"text/plain;charset=UTF-8"}));
+    } else {
+      fetch(LEAD_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+    }
+  }catch(e){}
+}
+addEventListener("pagehide",()=>sendProgress(true));
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") sendProgress(true); });
+setInterval(()=>{ if(document.visibilityState==="visible") sendProgress(false); }, 120000);
+addEventListener("online", maybeShowLeadGate);
+
+/* ---------- dates ---------- */
+function istToday(){ const n=new Date(Date.now()+ (330+new Date().getTimezoneOffset())*60000); return n.toISOString().slice(0,10); }
+const TODAY = istToday();
+const DAYS = PLAN.days;
+const IDX = Object.fromEntries(DAYS.map((d,i)=>[d.d,i]));
+function defaultDay(){ if(TODAY<DAYS[0].d) return DAYS[0].d; if(TODAY>DAYS[DAYS.length-1].d) return DAYS[DAYS.length-1].d; return TODAY; }
+let selDay = defaultDay();
+const fmt = (iso,o)=> new Date(iso+"T00:00:00").toLocaleDateString("en-IN",o||{weekday:"long",day:"numeric",month:"long"});
+
+/* ---------- plan helpers ---------- */
+function sessItems(sess){
+  const keyed = sess.items.some(i=>i.k);
+  if(keyed || sess.items.length<=1) return sess.items.map(i=>({...i}));
+  return [{t:sess.items[0].t, sub:sess.items.slice(1).map(i=>i.t).join(" "), k:null, h:null}];
+}
+function dayTasks(day){
+  const out=[{id:"r",s:"Recap",t:day.recap,h:day.rh,recap:true}];
+  if(!day.rh) out.length=0;
+  day.sess.forEach((s,si)=>{ sessItems(s).forEach((it,ii)=>{ out.push({id:si+"-"+ii,s:s.s,t:it.t,sub:it.sub,k:it.k,h:it.h,sessH:s.h,si}); }); });
+  return out.filter(t=>!(t.s==="Rest" && /No study/.test(t.t)));
+}
+const TASKS = Object.fromEntries(DAYS.map(d=>[d.d,dayTasks(d)]));
+function isDone(date,id){ return !!(S.days[date] && S.days[date].t && S.days[date].t[id]); }
+function dayPct(date){ const t=TASKS[date]; if(!t.length) return 0; return t.filter(x=>isDone(date,x.id)).length/t.length; }
+function phaseClass(p){ return p.startsWith("Mock")?"phase-Mock":p.startsWith("EXAM")?"phase-EXAM":p.startsWith("Revision")?"phase-Revision":p.startsWith("Final")?"phase-Final":""; }
+
+/* ---------- XP, streak ---------- */
+function taskXP(t){ if(t.recap) return 15; if(t.h) return Math.round(t.h*20); if(/SESSION RECAP/.test(t.t)) return 8; return 30; }
+function totalXP(){
+  let xp=0;
+  for(const d of DAYS){ const ts=TASKS[d.d]; for(const t of ts) if(isDone(d.d,t.id)) xp+=taskXP(t); if(ts.length && dayPct(d.d)===1) xp+=40; }
+  xp += Object.values(S.scores).filter(v=>v!=="" && v!=null).length*25;
+  xp += Object.values(S.tests).filter(v=>v!=="" && v!=null).length*30;
+  return xp;
+}
+function level(xp){ let i=0; for(let j=0;j<LEVELS.length;j++) if(xp>=LEVELS[j][0]) i=j; const cur=LEVELS[i], nxt=LEVELS[i+1]; return {name:cur[1], pct: nxt? (xp-cur[0])/(nxt[0]-cur[0]) : 1, next: nxt? nxt[0]-xp : 0, nextName: nxt?nxt[1]:null}; }
+function streak(){
+  const upto = TODAY<DAYS[0].d ? null : (TODAY>DAYS.at(-1).d ? DAYS.at(-1).d : TODAY);
+  if(!upto) return 0;
+  let i=IDX[upto], n=0;
+  if(dayPct(DAYS[i].d)<0.8) i--;
+  for(;i>=0;i--){ if(dayPct(DAYS[i].d)>=0.8) n++; else break; }
+  return n;
+}
+function bestStreak(){ let b=0,c=0; for(const d of DAYS){ if(dayPct(d.d)>=0.8){c++;b=Math.max(b,c);} else c=0; } return b; }
+
+/* ---------- chapter progress ---------- */
+function chapterStats(){
+  const st={};
+  for(const c of PLAN.chapters) st[c.k]={p1:[0,0],r1:[0,0],r2:[0,0]};
+  for(const d of DAYS){
+    const ph = d.p.startsWith("Phase 1")?"p1": d.p==="Revision 1"?"r1": d.p==="Revision 2"?"r2":null;
+    if(!ph) continue;
+    for(const t of TASKS[d.d]) if(t.k && st[t.k]){ st[t.k][ph][1]++; if(isDone(d.d,t.id)) st[t.k][ph][0]++; }
+  }
+  return st;
+}
+
+/* ---------- badges ---------- */
+function mockAgg(n){ const v=["Acc","Law","QA","Eco"].map(s=>S.scores["m"+n+"-"+s]); return v.every(x=>x!==""&&x!=null&&!isNaN(x))? v.reduce((a,b)=>a+ +b,0):null; }
+function badgeList(){
+  const cs=chapterStats(); const bs=bestStreak();
+  const phaseDone=(subjs,ph)=>PLAN.chapters.filter(c=>subjs.includes(c.s)).every(c=>cs[c.k][ph][1]>0 && cs[c.k][ph][0]===cs[c.k][ph][1]);
+  const anyDay = DAYS.some(d=>dayPct(d.d)===1);
+  const c2 = cs["Law-2"].p1;
+  return [
+    ["1","First step","Finish every task on any one day",anyDay],
+    ["3","Hat-trick","3-day streak",bs>=3],
+    ["7","Week warrior","7-day streak",bs>=7],
+    ["21","Habit formed","21-day streak",bs>=21],
+    ["50","Unbreakable","50-day streak",bs>=50],
+    ["A","Ledger done","Accounting study (Phase 1) complete",phaseDone(["Acc"],"p1")],
+    ["Q","Numbers tamed","QA study (Phase 1) complete",phaseDone(["QA"],"p1")],
+    ["§","Contract conquered","Indian Contract Act — every unit ticked",c2[1]>0&&c2[0]===c2[1]],
+    ["L","Case closed","Business Laws study (Phase 1) complete",phaseDone(["Law"],"p1")],
+    ["E","Market mover","Economics study (Phase 1) complete",phaseDone(["Eco"],"p1")],
+    ["R1","First pass","Revision 1 complete in all four papers",phaseDone(["Acc","Law","QA","Eco"],"r1")],
+    ["R2","Second pass","Revision 2 complete in all four papers",phaseDone(["Acc","Law","QA","Eco"],"r2")],
+    ["M1","Mock 1 logged","All four Mock 1 scores entered",mockAgg(1)!=null],
+    ["M2","Mock 2 logged","All four Mock 2 scores entered",mockAgg(2)!=null],
+    ["M3","Dress rehearsal","All four Mock 3 scores entered",mockAgg(3)!=null],
+    ["85","Rank zone","85%+ aggregate in any mock",[1,2,3].some(n=>(mockAgg(n)||0)>=340)],
+    ["↑","Climber","Each mock aggregate beats the one before",mockAgg(1)!=null&&mockAgg(2)!=null&&mockAgg(3)!=null&&mockAgg(2)>mockAgg(1)&&mockAgg(3)>mockAgg(2)],
+    ["XP","Rank Holder","Reach the top level",totalXP()>=LEVELS.at(-1)[0]],
+  ];
+}
+
+/* ---------- UI helpers ---------- */
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("show"),2400); }
+function ringSVG(p,color,size=92,stroke=10,label=""){
+  const r=(size-stroke)/2, c=2*Math.PI*r;
+  return `<svg viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="${stroke}"/><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" transform="rotate(-90 ${size/2} ${size/2})" style="transition:stroke-dashoffset .5s"/>${label?`<text x="50%" y="54%" text-anchor="middle" dominant-baseline="middle" style="font-family:var(--mono);font-size:${size/5.2}px;font-weight:600;fill:var(--ink)">${label}</text>`:""}</svg>`;
+}
+const CHECK = `<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`;
+
+let prevBadges = new Set(badgeList().filter(b=>b[3]).map(b=>b[1]));
+function refreshHeader(){
+  const xp=totalXP(), L=level(xp);
+  $("#xp").textContent = xp.toLocaleString("en-IN")+" XP";
+  $("#lvlname").textContent = L.name;
+  $("#lvlbar").style.width = (L.pct*100).toFixed(1)+"%";
+  $("#streak").textContent = streak();
+  $("#hello").textContent = S.name? `${S.name} · CA Foundation, January 2027` : "CA Foundation · January 2027";
+  const now = new Set(badgeList().filter(b=>b[3]).map(b=>b[1]));
+  for(const b of now) if(!prevBadges.has(b)){ toast("Badge unlocked: "+b); burst(); }
+  prevBadges = now;
+}
+
+/* ---------- confetti ---------- */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function burst(){
+  if(reduce) return;
+  const cv=$("#fx"), ctx=cv.getContext("2d"); cv.width=innerWidth; cv.height=innerHeight;
+  const cols=["#D9981E","#2E7153","#A34A2E","#2F5D8A","#6B4A86","#8FB29C"];
+  const ps=Array.from({length:120},()=>({x:innerWidth/2,y:innerHeight*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*12-4,s:Math.random()*6+4,c:cols[Math.random()*cols.length|0],r:Math.random()*6,vr:(Math.random()-.5)*.4}));
+  let f=0; (function tick(){ ctx.clearRect(0,0,cv.width,cv.height); for(const p of ps){ p.vy+=.35; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.fillStyle=p.c; ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); ctx.restore(); } if(++f<110) requestAnimationFrame(tick); else ctx.clearRect(0,0,cv.width,cv.height); })();
+}
+
+/* ---------- views ---------- */
+function nextPaper(){ for(const p of PAPERS) if(TODAY<=p[0]) return p; return null; }
+function countdownHTML(){
+  const np=nextPaper();
+  const target = np? new Date(np[0]+"T14:00:00+05:30") : null;
+  const days = target? Math.max(0,Math.ceil((target-Date.now())/86400000)) : 0;
+  const started = TODAY>=DAYS[0].d;
+  const tip = TIPS[(IDX[selDay]??0)%TIPS.length];
+  return `<section class="hero">
+    <div class="panel countdown">
+      <div class="eyebrow">${np? "Days to "+esc(np[2]) : "Exams complete"}</div>
+      <div class="cd-row"><div class="cd-big num">${days}<small>days</small></div>
+        <div style="padding-bottom:6px">${started? `Plan day <b class="num">${Math.min((IDX[TODAY]??DAYS.length-1)+1,DAYS.length)}</b> of ${DAYS.length}` : `Plan starts ${fmt(DAYS[0].d,{day:"numeric",month:"short"})} — ${Math.round((new Date(DAYS[0].d)-new Date(TODAY))/86400000)} days to go`}</div></div>
+      <div class="papers">${PAPERS.map(p=>`<span class="paper ${TODAY>p[0]?"done":""} ${np&&np[0]===p[0]?"next":""}">${fmt(p[0],{day:"numeric",month:"short"})} · ${p[1]}</span>`).join("")}</div>
+    </div>
+    <div class="panel"><div class="eyebrow">Today's edge</div><p class="quote" style="margin:8px 0 0"><b>${esc(tip[0])}</b> ${esc(tip[1])}</p></div>
+  </section>`;
+}
+
+function taskHTML(date,t){
+  const on=isDone(date,t.id);
+  let head="", body=esc(t.t);
+  const m = /^(Acc|Law|QA|Eco) Ch (\d+): (.*?) \[(HIGH|MEDIUM|LOW)\] — (.*)$/.exec(t.t);
+  if(m){ head=`<span class="tag">${m[1]} Ch ${m[2]}</span><span class="pr pr-${m[4]}">${m[4]}</span><span class="muted" style="font-size:12.5px">${esc(m[3])}</span>`; body=esc(m[5]); }
+  else if(/SESSION RECAP/.test(t.t)){ head=`<span class="tag">Session recap · 15 min</span>`; body="Close the book. Write this session's key points, formats, formulas or sections on the chapter's one-page summary sheet, plus 5 flashcards."; }
+  else if(t.recap){ head=`<span class="tag">Morning recap · ${t.h*60} min</span>`; body=esc(t.t.replace(/^MORNING RECAP[^:]*:\s*/,"")); }
+  return `<div class="task s-${t.s} ${on?"on":""}" data-id="${t.id}" role="checkbox" aria-checked="${on}" tabindex="0">
+    <span class="box">${CHECK}</span>
+    <div style="min-width:0;flex:1">${head?`<div class="tk">${head}</div>`:""}<div class="tt">${body}${t.sub?`<small>${esc(t.sub)}</small>`:""}</div></div>
+    ${t.h?`<span class="th">${t.recap?"":t.h+" h"}</span>`:""}
+  </div>`;
+}
+
+function renderToday(){
+  const day=DAYS[IDX[selDay]], tasks=TASKS[selDay], log=S.days[selDay]||{};
+  const pct=dayPct(selDay), i=IDX[selDay];
+  const groups=[]; const recap=tasks.filter(t=>t.recap);
+  if(recap.length) groups.push({s:"Recap",title:"Morning recap",h:day.rh,items:recap,note:"First thing in the day · closed book, then check against your summary sheet"});
+  day.sess.forEach((s,si)=>{ const its=tasks.filter(t=>t.si===si); if(its.length) groups.push({s:s.s,title:SUBJ[s.s]||s.s,h:s.h,items:its}); });
+  const earned = tasks.filter(t=>isDone(selDay,t.id)).reduce((a,t)=>a+taskXP(t),0) + (pct===1?40:0);
+  $("#view").innerHTML = countdownHTML() + `
+  <div class="daynav">
+    <button class="iconbtn" id="prev" aria-label="Previous day" ${i===0?"disabled":""}>‹</button>
+    <div><div class="eyebrow">${selDay===TODAY?"Today":selDay<TODAY?"Past day":"Upcoming"}</div><h2>${fmt(selDay)}</h2></div>
+    <button class="iconbtn" id="next" aria-label="Next day" ${i===DAYS.length-1?"disabled":""}>›</button>
+    <span class="chip ${phaseClass(day.p)}">${esc(day.p)}</span>
+    <span class="chip num">${day.h} h planned</span>
+    ${selDay!==defaultDay()?`<button class="linkbtn" id="jump">Back to ${TODAY<DAYS[0].d?"day 1":"today"}</button>`:""}
+  </div>
+  <div class="daygrid">
+    <div>${groups.map(g=>`<section class="block s-${g.s}"><div class="block-h"><span class="sw"></span><div><h3>${esc(g.title)}</h3>${g.note?`<div class="recapnote">${g.note}</div>`:""}</div><span class="hrs">${g.h?g.h+" h":""}</span></div>${g.items.map(t=>taskHTML(selDay,t)).join("")}</section>`).join("")}</div>
+    <aside class="side">
+      <div class="panel"><div class="ring">${ringSVG(pct,pct===1?"var(--good)":"var(--brand)",92,10,Math.round(pct*100)+"%")}<div><div class="big">${pct===1?"Day done":pct>=.8?"Streak safe":"Keep going"}</div><div class="muted">${tasks.filter(t=>isDone(selDay,t.id)).length} of ${tasks.length} tasks · <span class="num">+${earned} XP</span></div></div></div>
+        ${pct<1&&tasks.length?`<div class="muted" style="font-size:13px;margin-top:10px">${pct>=.8?"Finish the last few for the +40 XP day bonus.":"Reach 80% to keep your streak alive."}</div>`:""}
+      </div>
+      <div class="panel">
+        <div class="eyebrow">End-of-day log</div>
+        <label class="fld" for="hrs">Hours actually studied</label>
+        <input type="number" id="hrs" min="0" max="16" step="0.25" value="${log.hrs??""}" placeholder="${day.h}">
+        <label class="fld">Focus today</label>
+        <div class="pips" id="focus">${[1,2,3,4,5].map(n=>`<button data-n="${n}" class="${log.focus===n?"on":""}" aria-label="Focus ${n} of 5">${n}</button>`).join("")}</div>
+        <label class="fld" for="note">What went wrong / goes in the Error Log?</label>
+        <textarea id="note" placeholder="e.g. forgot to adjust interest on drawings in Q7">${esc(log.note||"")}</textarea>
+      </div>
+      ${day.sess.some(s=>s.s==="Test")?`<div class="panel"><div class="eyebrow">Weekly test score</div><label class="fld" for="tscore">Marks out of 100</label><input type="number" id="tscore" min="0" max="100" value="${S.tests[selDay]??""}"><div class="muted" style="font-size:13px;margin-top:6px">Target 75+. Logging it earns 30 XP.</div></div>`:""}
+    </aside>
+  </div>`;
+  $("#prev").onclick=()=>{selDay=DAYS[i-1].d;renderToday();};
+  $("#next").onclick=()=>{selDay=DAYS[i+1].d;renderToday();};
+  if($("#jump")) $("#jump").onclick=()=>{selDay=defaultDay();renderToday();};
+  document.querySelectorAll(".task").forEach(el=>{
+    const act=()=>toggleTask(selDay,el.dataset.id);
+    el.onclick=act; el.onkeydown=e=>{ if(e.key===" "||e.key==="Enter"){e.preventDefault();act();} };
+  });
+  const L=()=>S.days[selDay]=S.days[selDay]||{};
+  $("#hrs").onchange=e=>{L().hrs=e.target.value===""?null:+e.target.value;save();};
+  $("#note").oninput=e=>{L().note=e.target.value;save();};
+  document.querySelectorAll("#focus button").forEach(b=>b.onclick=()=>{L().focus=+b.dataset.n;save();renderToday();});
+  if($("#tscore")) $("#tscore").onchange=e=>{S.tests[selDay]=e.target.value===""?null:+e.target.value;save();refreshHeader();};
+}
+
+function toggleTask(date,id){
+  const before=dayPct(date);
+  const d=S.days[date]=S.days[date]||{}; d.t=d.t||{};
+  if(d.t[id]) delete d.t[id]; else d.t[id]=1;
+  save();
+  const after=dayPct(date);
+  if(after===1 && before<1){ burst(); toast("Day complete — +40 XP bonus"); }
+  else if(after>=.8 && before<.8) toast("80% done — streak secured");
+  renderToday(); refreshHeader();
+}
+
+function renderCalendar(){
+  const months=[["2026-10","October 2026"],["2026-11","November 2026"],["2026-12","December 2026"],["2027-01","January 2027"]];
+  const colorFor=p=> p===0?"var(--surface)":`color-mix(in srgb,var(--brand) ${Math.round(18+p*72)}%,var(--surface))`;
+  const done=DAYS.filter(d=>dayPct(d.d)>=.8).length, past=DAYS.filter(d=>d.d<=TODAY).length;
+  let html=`<div class="sectionhead"><h2>Consistency map</h2><span class="muted">${done} of ${past||0} days so far at 80%+ · best streak <b class="num">${bestStreak()}</b></span></div>
+  <div class="legend"><span><i style="background:var(--surface);border:1px solid var(--line)"></i>Not started</span><span><i style="background:${colorFor(.4)}"></i>Partly done</span><span><i style="background:${colorFor(1)}"></i>Complete</span><span><i style="background:var(--gold)"></i>Sunday test</span><span><i style="background:var(--law)"></i>Mock / exam</span></div><div class="months">`;
+  for(const [ym,label] of months){
+    const first=new Date(ym+"-01T00:00:00"); const dim=new Date(first.getFullYear(),first.getMonth()+1,0).getDate();
+    const off=(first.getDay()+6)%7;
+    html+=`<div class="panel month"><h3>${label}</h3><div class="cal">${["M","T","W","T","F","S","S"].map(x=>`<span class="dow">${x}</span>`).join("")}${"<span class='cell off'></span>".repeat(off)}`;
+    for(let n=1;n<=dim;n++){
+      const iso=ym+"-"+String(n).padStart(2,"0"); const d=DAYS[IDX[iso]];
+      if(!d){ html+=`<span class="cell" style="opacity:.35">${n}</span>`; continue; }
+      const p=dayPct(iso), exam=d.p==="EXAM DAY", mock=d.p.startsWith("Mock"), sun=d.sess.some(s=>s.s==="Test");
+      html+=`<button class="cell ${exam?"exam":""} ${mock?"mock":""} ${sun?"sun":""} ${iso===TODAY?"today":""}" data-d="${iso}" style="${exam?"":`background:${colorFor(p)};${p>.55?"color:var(--brand-ink)":""}`}" title="${fmt(iso,{day:"numeric",month:"short"})} · ${esc(d.p)} · ${Math.round(p*100)}%">${n}${(mock||sun)&&!exam?'<span class="dot"></span>':""}</button>`;
+    }
+    html+=`</div></div>`;
+  }
+  $("#view").innerHTML=html+"</div>";
+  document.querySelectorAll(".cell[data-d]").forEach(b=>b.onclick=()=>{selDay=b.dataset.d;show("today");});
+}
+
+let chFilter="All";
+function renderChapters(){
+  const cs=chapterStats();
+  const subj=["Acc","Law","QA","Eco"];
+  const agg=s=>{ let a=0,b=0; for(const c of PLAN.chapters.filter(c=>c.s===s)) for(const ph of ["p1","r1","r2"]){a+=cs[c.k][ph][0];b+=cs[c.k][ph][1];} return b?a/b:0; };
+  const frac=(x)=>x[1]?x[0]/x[1]:0;
+  let html=`<div class="sectionhead"><h2>Syllabus coverage</h2><span class="muted">Study + Revision 1 + Revision 2, weighted by tasks</span></div><div class="subjgrid">`+
+    subj.map(s=>`<div class="subjcard s-${s}">${ringSVG(agg(s),"var(--c)",62,8,Math.round(agg(s)*100)+"%")}<div><h3>${SUBJ[s]}</h3><div class="muted" style="font-size:13px">${PLAN.chapters.filter(c=>c.s===s&&frac(cs[c.k].p1)===1).length} of ${PLAN.chapters.filter(c=>c.s===s).length} chapters studied</div></div></div>`).join("")+`</div>`;
+  html+=`<div class="filters">${["All","Acc","Law","QA","Eco","HIGH","Weak"].map(f=>`<button data-f="${f}" class="${chFilter===f?"on":""}">${f==="All"?"All chapters":f==="HIGH"?"High priority":f==="Weak"?"Weak (rated 1–2)":SUBJ[f]}</button>`).join("")}</div>`;
+  html+=`<div class="tablewrap"><table><thead><tr><th>Ch</th><th>Chapter</th><th>Marks</th><th>Priority</th><th>Study</th><th>Rev 1</th><th>Rev 2</th><th>Confidence</th></tr></thead><tbody>`;
+  for(const s of subj){
+    const rows=PLAN.chapters.filter(c=>c.s===s && (chFilter==="All"||chFilter===s||(chFilter==="HIGH"&&c.pr==="High")||(chFilter==="Weak"&&S.rating[c.k]&&S.rating[c.k]<=2)));
+    if(!rows.length) continue;
+    html+=`<tr class="subjrow s-${s}"><td colspan="8" style="color:var(--c)">${SUBJ[s]}</td></tr>`;
+    for(const c of rows){
+      const st=cs[c.k], p=frac(st.p1), r=S.rating[c.k]||0;
+      html+=`<tr class="s-${s}"><td class="num">${c.no}</td><td>${esc(c.n)}</td><td class="num" style="white-space:nowrap">${esc(c.marks)}</td><td><span class="pr pr-${c.pr.toUpperCase()}">${c.pr.toUpperCase()}</span></td>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="pbar" style="flex:1"><i style="width:${p*100}%"></i></div><span class="num" style="font-size:12px">${Math.round(p*100)}%</span></div></td>
+      <td><span class="tick ${frac(st.r1)===1?"y":""}">${frac(st.r1)===1?"✓":Math.round(frac(st.r1)*100)||"–"}</span></td>
+      <td><span class="tick ${frac(st.r2)===1?"y":""}">${frac(st.r2)===1?"✓":Math.round(frac(st.r2)*100)||"–"}</span></td>
+      <td><div style="display:flex;align-items:center;gap:6px"><div class="stars" data-k="${c.k}">${[1,2,3,4,5].map(n=>`<button data-n="${n}" class="${n<=r?"on":""}" aria-label="Rate ${n} of 5">★</button>`).join("")}</div>${r&&r<=2?'<span class="weak">WEAK</span>':""}</div></td></tr>`;
+    }
+  }
+  $("#view").innerHTML=html+`</tbody></table></div><p class="muted" style="font-size:13px">Study and revision progress fill in automatically as you tick tasks on the Today tab. Rate your confidence after each revision — chapters rated 1–2 are the ones to put into your final-revision days.</p>`;
+  document.querySelectorAll(".filters button").forEach(b=>b.onclick=()=>{chFilter=b.dataset.f;renderChapters();});
+  document.querySelectorAll(".stars button").forEach(b=>b.onclick=()=>{const k=b.parentElement.dataset.k, n=+b.dataset.n; S.rating[k]=S.rating[k]===n?0:n; save(); renderChapters();});
+}
+
+function renderScores(){
+  const mockDates={1:"23–26 Nov",2:"12–15 Dec",3:"28–31 Dec"};
+  const subj=["Acc","Law","QA","Eco"];
+  const verdict=a=> a==null?"Enter all four papers to see your verdict.": a>=340?"Rank zone — hold this and polish presentation.": a>=280?"Strong pass — push your weakest paper past 80.": a>=200?"Pass zone — double revision time on the lowest paper.":"Below pass — sit with your faculty and re-plan this week.";
+  let html=`<div class="sectionhead"><h2>Mock exams</h2><span class="muted">Rank benchmark: 85 per paper, 340 aggregate</span></div><div class="scoregrid">`;
+  for(const n of [1,2,3]){
+    const a=mockAgg(n);
+    html+=`<div class="panel mock"><h3>Mock ${n} <span class="muted" style="font-weight:500;font-size:13px">· ${mockDates[n]}</span></h3>${subj.map(s=>{const v=S.scores["m"+n+"-"+s]; return `<div class="srow s-${s}"><label for="m${n}${s}"><span class="tag">${s}</span> ${SUBJ[s]}</label><input type="number" id="m${n}${s}" data-k="m${n}-${s}" min="0" max="100" value="${v??""}" placeholder="/100"><span class="num" style="font-size:12px;color:${v==null||v===""?"var(--ink-2)":v>=85?"var(--good)":v>=40?"var(--warn)":"var(--bad)"}">${v==null||v===""?"":(v>=85?"+":"")+(v-85)}</span></div>`;}).join("")}
+      <div class="verdict">${a!=null?`<span class="num">${a}/400</span> · `:""}${verdict(a)}</div></div>`;
+  }
+  html+=`</div><div class="panel chart"><div class="eyebrow" style="margin-bottom:8px">Paper-wise progress across mocks</div>${mockChart()}</div>`;
+  const tests=DAYS.filter(d=>d.sess.some(s=>s.s==="Test"));
+  html+=`<div class="sectionhead" style="margin-top:22px"><h2>Sunday tests</h2><span class="muted">Target 75+</span></div><div class="panel chart">${testChart(tests)}</div>`;
+  $("#view").innerHTML=html;
+  document.querySelectorAll("input[data-k]").forEach(i=>i.onchange=()=>{let v=i.value===""?null:Math.max(0,Math.min(100,+i.value)); S.scores[i.dataset.k]=v; save(); refreshHeader(); renderScores();});
+}
+function mockChart(){
+  const subj=["Acc","Law","QA","Eco"], W=640,H=240,pl=34,pb=28,pt=10, gw=(W-pl)/4, bw=Math.min(26,gw/4.6);
+  const y=v=>pt+(H-pt-pb)*(1-v/100);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mock scores by paper">`;
+  for(const t of [0,40,85,100]) s+=`<line x1="${pl}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="${t===85?"var(--gold)":"var(--line)"}" stroke-dasharray="${t===85?"5 4":""}"/><text x="${pl-6}" y="${y(t)+4}" text-anchor="end">${t}</text>`;
+  subj.forEach((sb,i)=>{
+    const cx=pl+gw*i+gw/2;
+    [1,2,3].forEach((n,j)=>{ const v=S.scores["m"+n+"-"+sb]; const x=cx+(j-1)*(bw+4)-bw/2; if(v!=null&&v!==""){ s+=`<rect x="${x}" y="${y(v)}" width="${bw}" height="${y(0)-y(v)}" rx="4" fill="var(--${sb.toLowerCase()})" opacity="${.45+j*.27}"/><text x="${x+bw/2}" y="${y(v)-4}" text-anchor="middle">${v}</text>`; } else s+=`<rect x="${x}" y="${y(0)-3}" width="${bw}" height="3" rx="1" fill="var(--line)"/>`; });
+    s+=`<text x="${cx}" y="${H-8}" text-anchor="middle">${sb} · M1 M2 M3</text>`;
+  });
+  return s+`</svg>`;
+}
+function testChart(tests){
+  const W=640,H=200,pl=34,pb=26,pt=12,n=tests.length, step=(W-pl-12)/Math.max(n-1,1);
+  const y=v=>pt+(H-pt-pb)*(1-v/100);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly test scores">`;
+  for(const t of [0,50,75,100]) s+=`<line x1="${pl}" x2="${W}" y1="${y(t)}" y2="${y(t)}" stroke="${t===75?"var(--gold)":"var(--line)"}" stroke-dasharray="${t===75?"5 4":""}"/><text x="${pl-6}" y="${y(t)+4}" text-anchor="end">${t}</text>`;
+  const pts=tests.map((d,i)=>({x:pl+6+i*step,v:S.tests[d.d],d:d.d})).filter(p=>p.v!=null&&p.v!=="");
+  if(pts.length>1) s+=`<polyline fill="none" stroke="var(--brand)" stroke-width="2.5" points="${pts.map(p=>p.x+","+y(p.v)).join(" ")}"/>`;
+  pts.forEach((p,i)=>{ s+=`<circle cx="${p.x}" cy="${y(p.v)}" r="${i===pts.length-1?5:3.5}" fill="var(--brand)"/>`; });
+  tests.forEach((d,i)=>{ if(i%2===0) s+=`<text x="${pl+6+i*step}" y="${H-8}" text-anchor="middle">${fmt(d.d,{day:"numeric",month:"short"})}</text>`; });
+  if(!pts.length) s+=`<text x="${W/2}" y="${H/2}" text-anchor="middle">Log a Sunday test score on the Today tab to start the line</text>`;
+  return s+`</svg>`;
+}
+
+function renderBadges(){
+  const bl=badgeList(), got=bl.filter(b=>b[3]).length, L=level(totalXP());
+  $("#view").innerHTML=`<div class="sectionhead"><h2>Badges</h2><span class="muted">${got} of ${bl.length} unlocked</span></div>
+  <div class="panel" style="margin-bottom:14px;display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="medal" style="background:var(--brand);color:var(--brand-ink);width:56px;height:56px">${LEVELS.findIndex(l=>l[1]===L.name)+1}</div><div style="flex:1;min-width:200px"><div class="eyebrow">Current level</div><h3 style="font-size:20px">${L.name}</h3><div class="lvlbar" style="height:8px;margin-top:6px"><i style="width:${L.pct*100}%"></i></div><div class="muted" style="font-size:13px;margin-top:4px">${L.nextName?`<span class="num">${L.next}</span> XP to ${L.nextName}`:"Top level reached"}</div></div></div>
+  <div class="badges">${bl.map(b=>`<div class="badge ${b[3]?"got":""}"><div class="medal">${esc(b[0])}</div><div><h3>${esc(b[1])}</h3><p>${esc(b[2])}</p></div></div>`).join("")}</div>
+  <p class="muted" style="font-size:13px;margin-top:14px">XP: study tasks earn 20 per planned hour, recaps 8–15, other tasks 30, a fully finished day +40, each mock score logged +25, each Sunday test logged +30.</p>`;
+}
+
+function renderSettings(){
+  const code = (()=>{ try{ return btoa(unescape(encodeURIComponent(JSON.stringify(S)))); }catch(e){ return ""; } })();
+  $("#view").innerHTML=`<div class="sectionhead"><h2>Your profile & backup</h2></div>
+  <div class="scoregrid">
+    <div class="panel"><label class="fld" for="nm" style="margin-top:0">Your name</label><input type="text" id="nm" value="${esc(S.name)}" placeholder="e.g. Ananya"><p class="muted" style="font-size:13px">Your progress is saved in this browser on this device only. Use a backup code to move it to another phone or laptop.</p></div>
+    <div class="panel"><div class="eyebrow">Backup code</div><textarea id="code" readonly style="font-family:var(--mono);font-size:11px;min-height:90px">${code}</textarea><div class="row"><button class="btn" id="copy">Copy code</button></div></div>
+    <div class="panel"><div class="eyebrow">Restore on this device</div><textarea id="paste" placeholder="Paste a backup code here" style="font-family:var(--mono);font-size:11px;min-height:90px"></textarea><div class="row"><button class="btn ghost" id="restore">Restore progress</button></div><p class="muted" id="rmsg" style="font-size:13px"></p></div>
+  </div>
+  <div class="panel"><div class="eyebrow">Start over</div><p class="muted" style="font-size:13px;margin:6px 0 10px">Clears every tick, score and note on this device.</p><button class="btn ghost" id="reset">Reset progress</button> <span id="rconfirm"></span></div>`;
+  $("#nm").oninput=e=>{S.name=e.target.value.trim();save();refreshHeader();};
+  $("#copy").onclick=()=>{ const ta=$("#code"); navigator.clipboard?.writeText(ta.value).then(()=>toast("Backup code copied"),()=>{ta.select();toast("Select-all done — copy it manually");}) ?? (ta.select(),toast("Select-all done — copy it manually")); };
+  $("#restore").onclick=()=>{ try{ const o=JSON.parse(decodeURIComponent(escape(atob($("#paste").value.trim())))); if(!o||typeof o!=="object"||!o.days) throw 0; S=Object.assign({name:"",phone:"",email:"",leadSent:false,days:{},scores:{},tests:{},rating:{}},o); save(); refreshHeader(); $("#rmsg").textContent="Progress restored."; toast("Progress restored"); }catch(e){ $("#rmsg").textContent="That code could not be read — copy the whole code again and paste it without spaces."; } };
+  $("#reset").onclick=()=>{ $("#rconfirm").innerHTML=`<button class="btn" id="reset2" style="background:var(--bad);color:#fff">Yes, erase everything</button>`; $("#reset2").onclick=()=>{S={name:S.name,phone:S.phone,email:S.email,leadSent:S.leadSent,days:{},scores:{},tests:{},rating:{},seenBadges:[]}; save(); refreshHeader(); renderSettings(); toast("Progress cleared");}; };
+}
+
+/* ---------- routing ---------- */
+const VIEWS={today:renderToday,calendar:renderCalendar,chapters:renderChapters,scores:renderScores,badges:renderBadges,settings:renderSettings};
+function show(tab){
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===tab));
+  VIEWS[tab](); window.scrollTo({top:0});
+  try{ sessionStorage.setItem(KEY+"-tab",tab); }catch(e){}
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>show(b.dataset.tab));
+
+function welcome(){
+  const m=document.createElement("div"); m.className="modal";
+  m.innerHTML=`<div class="panel leadgate">
+    <img class="logo" src="../assets/arivupro-icon.webp" alt="ArivuPro">
+    <div class="eyebrow">ArivuPro Academy</div>
+    <h2>Your road to a rank starts here</h2>
+    <p class="muted">${DAYS.length} planned days · 4 papers · 2 revisions · 3 full mocks. Tick each task as you finish it, keep your streak, and watch your syllabus fill up.</p>
+    <form id="leadform" onsubmit="return false">
+      <label class="fld" for="wname">Your first name</label>
+      <input type="text" id="wname" placeholder="e.g. Ananya" value="${esc(S.name)}">
+      <div class="lead-err" id="wnameerr"></div>
+      <label class="fld" for="wphone">Mobile number</label>
+      <input type="tel" id="wphone" inputmode="numeric" placeholder="10-digit mobile number" value="${esc(S.phone)}">
+      <div class="lead-err" id="wphoneerr"></div>
+      <label class="fld" for="wemail">Email</label>
+      <input type="email" id="wemail" placeholder="you@example.com" value="${esc(S.email)}">
+      <div class="lead-err" id="wemailerr"></div>
+      <button class="btn gold" id="go">Start my plan</button>
+    </form>
+    </div>`;
+  document.body.appendChild(m);
+  const nameEl=$("#wname"), phoneEl=$("#wphone"), emailEl=$("#wemail"), goBtn=$("#go");
+  const go=()=>{
+    const nameOk=nameEl.value.trim().length>0, phoneOk=validPhone(phoneEl.value), emailOk=validEmail(emailEl.value);
+    $("#wnameerr").textContent = nameOk ? "" : "Your name is required.";
+    $("#wphoneerr").textContent = phoneOk ? "" : (phoneEl.value.trim() ? "Enter a valid 10-digit mobile number." : "Mobile number is required.");
+    $("#wemailerr").textContent = emailOk ? "" : (emailEl.value.trim() ? "Enter a valid email address." : "Email is required.");
+    if(!(nameOk && phoneOk && emailOk)) return;
+    S.name=nameEl.value.trim()||"Aspirant"; S.phone=normPhone(phoneEl.value); S.email=emailEl.value.trim();
+    save(); refreshHeader(); m.remove();
+    sendLead({name:S.name,phone:S.phone,email:S.email}).then(()=>{S.leadSent=true;save();saveSharedLead({name:S.name,phone:S.phone,email:S.email,leadSent:true});sendProgress(false);}).catch(()=>{});
+  };
+  goBtn.onclick=go; [nameEl,phoneEl,emailEl].forEach(el=>el.onkeydown=e=>{ if(e.key==="Enter") go(); });
+  setTimeout(()=>nameEl.focus(),50);
+}
+
+let startTab="today"; try{ startTab=sessionStorage.getItem(KEY+"-tab")||"today"; }catch(e){}
+refreshHeader(); show(VIEWS[startTab]?startTab:"today"); maybeShowLeadGate(); sendProgress(false);
+</script>
