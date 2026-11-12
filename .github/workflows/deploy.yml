@@ -1,0 +1,22 @@
+name: Auto-Pull to SiteGround
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull latest changes on SiteGround
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SG_HOST }}
+          username: ${{ secrets.SG_USERNAME }}
+          port: ${{ secrets.SG_PORT }}
+          key: ${{ secrets.SG_SSH_KEY }}
+          passphrase: ${{ secrets.SG_PASSPHRASE }}
+          script: |
+            cd ~/www/arivupro.com/public_html/rank-roadmap
+            git pull origin main
