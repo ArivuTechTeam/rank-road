@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -378,6 +378,14 @@ ul.tl li b{font-size:12.5px;text-align:right;min-width:0;overflow-wrap:anywhere}
 .wpills{display:flex;gap:4px;flex-wrap:wrap}
 .wpill{border:1px solid var(--line);background:var(--ground);border-radius:999px;padding:4px 11px;font-size:12.5px;font-weight:600;cursor:pointer}
 .wpill.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.ch-diff-wrap{margin:4px 0 14px}
+.ch-diff-subj{border:1px solid var(--line);border-radius:var(--r);margin-bottom:6px;overflow:hidden}
+.ch-diff-subj summary{padding:9px 14px;font-size:13.5px;cursor:pointer;background:var(--surface);list-style:none;display:flex;justify-content:space-between}
+.ch-diff-subj summary::after{content:"▸";opacity:.5}
+.ch-diff-subj[open] summary::after{content:"▾"}
+.ch-diff-list{padding:8px 12px 10px;display:flex;flex-direction:column;gap:8px}
+.ch-diff-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ch-diff-name{font-size:13px;flex:1;min-width:150px;color:var(--ink-2)}
 .coach-days{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 6px}
 .coach-day{border:1px solid var(--line);background:var(--ground);border-radius:8px;padding:5px 10px;font-size:13px;font-weight:600;cursor:pointer}
 .coach-day.on{background:var(--acc);color:#fff;border-color:var(--acc)}
@@ -531,7 +539,7 @@ const ENGINE = (() => {
   const recapFor = (avail, sunday) => avail <= 0 ? 0 : sunday ? Math.min(0.5, avail) : avail >= 6 ? 0.75 : avail >= 3 ? 0.5 : 0.25;
 
   /* ---- units per phase, scaled by what is still left (remain) ---- */
-  function units(SYL, cfg, phase, remain, subjWeights) {
+  function units(SYL, cfg, phase, remain, subjWeights, chWeights) {
     const out = {};
     for (const s of cfg.subjects) {
       let chs = SYL[s];
@@ -542,10 +550,11 @@ const ENGINE = (() => {
         const key = `${s} Ch ${c.no}:`;
         const nm = `${c.n} [${c.pr.toUpperCase()}]`;
         const tot = c.u.reduce((a, x) => a + x[1], 0);
+        const cw = chWeights?.[s+"-"+c.no] ?? 1;
         const push = (label, hrs) => {
           const uid = phase + "|" + label;
           const f = remain[uid] ?? 1;
-          if (f > 0.05) lst.push({label, hours: hrs * sw * f, key, uid});
+          if (f > 0.05) lst.push({label, hours: hrs * sw * cw * f, key, uid});
         };
         if (phase === "P1") c.u.forEach(([u, h]) => push(`${key} ${nm} — ${u}`, h));
         else if (phase === "R1") push(`${key} ${nm} — ${cfg.r1}`, Math.max(1, Math.round(tot * .42 * 2) / 2));
@@ -682,7 +691,7 @@ const ENGINE = (() => {
     const avail = Object.fromEntries(range(from < tailStart ? from : tailStart, lastExam).map(d => [d, hoursFor(settings, d)]));
 
     /* phase workloads still to do */
-    const U = {P1: units(syl, cfg, "P1", remain, settings.subjWeights), R1: units(syl, cfg, "R1", remain, settings.subjWeights), R2: units(syl, cfg, "R2", remain, settings.subjWeights)};
+    const U = {P1: units(syl, cfg, "P1", remain, settings.subjWeights, settings.chWeights), R1: units(syl, cfg, "R1", remain, settings.subjWeights, settings.chWeights), R2: units(syl, cfg, "R2", remain, settings.subjWeights, settings.chWeights)};
     const W = {P1: need(U.P1), R1: need(U.R1), R2: need(U.R2)};
     const Wt = W.P1 + W.R1 + W.R2 || 1;
 
@@ -1498,6 +1507,7 @@ function prepAttempt(){ if(!started()) DRAFT.start=defaultStartFor(ENGINE.attemp
 function openWizard(step, attempt){
   DRAFT=JSON.parse(JSON.stringify(currentSettings())); DRAFT_PRESET=DRAFT.preset||"full"; WIZ={step:step||1, matched:null};
   if(!DRAFT.subjWeights) DRAFT.subjWeights = Object.fromEntries(CFG.subjects.map(s=>[s,1.0]));
+  if(!DRAFT.chWeights) DRAFT.chWeights = {};
   if(!DRAFT.coaching) DRAFT.coaching = {enabled:false, days:[], hours:2};
   if(!DRAFT.holidays) DRAFT.holidays = [];
   if(attempt){ DRAFT.attempt=attempt; prepAttempt(); }
@@ -1576,8 +1586,19 @@ function renderPlan(){
       <input type="date" id="hol-add-date" min="${DRAFT.start}" max="${lastExamDate}" style="font-size:13px">
       <button class="btn ghost" id="hol-add-btn" style="padding:6px 14px;font-size:13px">Add</button>
     </div>`;
+    const SYL_NOW = PLAN.syl || {};
+    const chHtml=`<p class="muted wsub" style="margin-top:14px"><b>How difficult do you find each chapter?</b></p>
+    <p class="muted" style="font-size:12.5px;margin:2px 0 8px">Hard chapters get more time; easy ones get less.</p>
+    <div class="ch-diff-wrap">${CFG.subjects.map(s=>{
+      const chs=(SYL_NOW[s]||[]).filter(c=>!/^PYQ/.test(c.n));
+      if(!chs.length) return "";
+      return `<details class="ch-diff-subj"><summary><b>${NAMES[s]||s}</b></summary><div class="ch-diff-list">${chs.map(c=>{
+        const uid=s+"-"+c.no, cur=DRAFT.chWeights[uid]??1.0;
+        return `<div class="ch-diff-row"><span class="ch-diff-name">${c.no}. ${esc(c.n)}</span><div class="wpills">${[[0.6,"Easy"],[1.0,"Normal"],[1.4,"Hard"]].map(([v,lbl])=>`<button class="wpill${cur===v?" on":""}" data-cw-uid="${uid}" data-cw-v="${v}">${lbl}</button>`).join("")}</div></div>`;
+      }).join("")}</div></details>`;
+    }).join("")}</div>`;
     body=`<h2 class="wq">Personalise your plan</h2><p class="muted wsub">Tell us about anything that changes your available study time.</p>
-    ${swHtml}${coachHtml}${holHtml}`;
+    ${swHtml}${chHtml}${coachHtml}${holHtml}`;
   } else if(step===5){
     const {res}=previewFor(DRAFT), c=coverage(res,a.id);
     body=`<h2 class="wq">How many hours can you study each day?</h2><p class="muted wsub">Total study time per day, including recaps and tests. Put 0 for a day you can't study.</p>
@@ -1591,7 +1612,7 @@ function renderPlan(){
     nextLbl = started()? (switching?"Switch to "+esc(a.label):"Replan from today") : "Save my plan";
   }
   $("#view").innerHTML=`<div class="wizard panel">${stepper}<div class="wbody">${body}</div>
-    <div class="wfoot"><button class="btn ghost" id="wback" ${step===1&&!S.plan&&!DRAFT.attempt?'style="visibility:hidden"':""}>${step===1?(S.plan?"Cancel":"Use the standard "+esc(attLabel(DRAFT.attempt))+" plan"):"Back"}</button><span class="muted num" style="font-size:13px">Step ${step} of ${STEPS.length}</span><button class="btn ${step===6?"gold":""}" id="wnext" ${step===1&&!DRAFT.attempt?"disabled":""}>${nextLbl}</button></div></div>`;
+    <div class="wfoot"><button class="btn ghost" id="wback" ${step===1&&!S.plan?'style="visibility:hidden"':""}>${step===1&&S.plan?"Cancel":"Back"}</button><span class="muted num" style="font-size:13px">Step ${step} of ${STEPS.length}</span><button class="btn ${step===6?"gold":""}" id="wnext" ${step===1&&!DRAFT.attempt?"disabled":""}>${nextLbl}</button></div></div>`;
   document.querySelectorAll(".stepper button[data-go]").forEach(b=>b.onclick=()=>{ WIZ.step=+b.dataset.go; renderPlan(); });
   document.querySelectorAll(".choice[data-a]").forEach(b=>b.onclick=()=>{ DRAFT.attempt=b.dataset.a; prepAttempt(); renderPlan(); });
   document.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{ DRAFT.start=b.dataset.s; draftHours(true); renderPlan(); });
@@ -1602,6 +1623,7 @@ function renderPlan(){
       $("#mini").innerHTML=`<div class="big num">${Math.round(res.stats.studyHours)} h</div><div class="meter"><i class="${c.tone}" style="width:${Math.min(100,c.pct)}%"></i></div><div class="muted" style="font-size:12.5px;margin-top:6px">${c.pct}% of the recommended ${Math.round(c.refHours)} h</div>`; });
   if(step===4){
     document.querySelectorAll(".wpill[data-sw-s]").forEach(b=>b.onclick=()=>{ DRAFT.subjWeights[b.dataset.swS]=+b.dataset.swV; renderPlan(); });
+    document.querySelectorAll(".wpill[data-cw-uid]").forEach(b=>b.onclick=()=>{ DRAFT.chWeights[b.dataset.cwUid]=+b.dataset.cwV; renderPlan(); });
     if($("#coach-no")) $("#coach-no").onclick=()=>{ DRAFT.coaching.enabled=false; renderPlan(); };
     if($("#coach-yes")) $("#coach-yes").onclick=()=>{ DRAFT.coaching.enabled=true; renderPlan(); };
     document.querySelectorAll(".coach-day").forEach(b=>b.onclick=()=>{
@@ -1621,7 +1643,7 @@ function renderPlan(){
       if(v && !(DRAFT.holidays||[]).includes(v)){ DRAFT.holidays=[...(DRAFT.holidays||[]),v]; renderPlan(); }
     };
   }
-  $("#wback").onclick=()=>{ if(step>1){ WIZ.step = (step===3 && started())? 1 : step-1; renderPlan(); } else { if(!S.plan && !DRAFT.attempt) return; WIZ=null; if(!S.plan){ S.plan={settings:defaultSettings(DRAFT.attempt),from:null,remain:{},mocksDone:0,frozen:[]}; save(); flush(); regen(); show("today"); } else renderPlan(); } };
+  $("#wback").onclick=()=>{ if(step>1){ WIZ.step = (step===3 && started())? 1 : step-1; renderPlan(); } else { if(!S.plan) return; WIZ=null; renderPlan(); } };
   $("#wnext").onclick=()=>{ if(step===1 && !DRAFT.attempt) return; if(step<6){ WIZ.step = (step===1 && started())? 3 : step+1; renderPlan(); } else { DRAFT.preset=DRAFT_PRESET; WIZ=null; applyPlan(DRAFT); } };
 }
 function renderPlanSummary(){
@@ -2562,7 +2584,7 @@ const ACC = (() => {
 })();
 
 let startTab="today"; try{ startTab=sessionStorage.getItem(KEY+"-tab")||"today"; }catch(e){}
-refreshHeader(); show(VIEWS[startTab]?startTab:"today"); ACC.boot(); sendProgress(false);
+refreshHeader(); show(S.plan?(VIEWS[startTab]?startTab:"today"):"plan"); ACC.boot(); sendProgress(false);
 </script>
 
 <script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("../sw.js").catch(()=>{}));}</script>
