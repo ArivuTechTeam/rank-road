@@ -1,50 +1,889 @@
 <!doctype html>
+<!-- deploy-test: 2026-11-12 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1F4E3D">
 <title>Rank Road – ArivuPro</title>
-<meta name="description" content="Day-wise study trackers for CA Foundation and CA Intermediate, January 2027.">
+<meta name="description" content="Day-wise study trackers for CA Foundation and CA Intermediate — January, May and September 2027 attempts.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/icon-192.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
-:root{--ground:#F3F6F2;--surface:#fff;--ink:#000000;--ink2:#010101;--line:#D3DED6;--brand:#2E8857;--gold:#D9981E}
-@media (prefers-color-scheme:dark){:root{color-scheme:dark;--ground:#0F1713;--surface:#16211B;--ink:#E6EEE8;--ink2:#A2B4A8;--line:#2A3A31;--brand:#6FBF95;--gold:#F0B444}}
+:root{--ground:#F3F6F2;--surface:#fff;--surface-2:#E8EFE9;--ink:#000000;--ink2:#010101;--ink-2:#010101;--line:#D3DED6;--brand:#2E8857;--brand-ink:#fff;--gold:#D9981E;
+  --btn-grad:linear-gradient(140deg,#35a066,#14512c);--btn2-bg:#f4f8f6;--law-soft:#F8E4DC;--acc-soft:#E1F0E7;--good:#2E8B57;--bad:#B8402E;
+  --shadow:0 1px 2px rgba(21,35,27,.06),0 6px 20px rgba(21,35,27,.06);--r:14px;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Source Sans 3",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--ground:#0F1713;--surface:#16211B;--surface-2:#1E2C24;--ink:#E6EEE8;--ink2:#A2B4A8;--ink-2:#A2B4A8;--line:#2A3A31;--brand:#6FBF95;--brand-ink:#0F1713;--gold:#F0B444;
+  --law-soft:#3A241C;--acc-soft:#1D3328;--good:#5BC98A;--bad:#E57560;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25)}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.5 "Source Sans 3",system-ui,sans-serif;padding:50px 16px 48px}
+body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.5 var(--body);padding:50px 16px 48px}
 main{max-width:880px;margin:0 auto}
-.brandmark{display:inline-block;background:#fff;padding:8px 16px;border-radius:12px;margin-bottom:22px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.brandmark{display:inline-block;background:#fff;padding:8px 16px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
 .brandmark img{height:28px;width:auto;display:block}
-h1{font:800 clamp(32px,6vw,52px)/1.05 "Bricolage Grotesque",system-ui,sans-serif;margin:8px 0 10px;letter-spacing:-.02em}
+h1{font:800 clamp(32px,6vw,52px)/1.05 var(--display);margin:8px 0 10px;letter-spacing:-.02em}
+h2,h3{font-family:var(--display);margin:0;letter-spacing:-.01em}
 .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);font-weight:600}
+.muted{color:var(--ink-2)}
 p.lead{color:var(--ink2);max-width:60ch;margin:0 0 28px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;scroll-margin-top:16px}
 a.card{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;transition:border-color .15s,transform .15s}
 a.card:hover,a.card:focus-visible{border-color:var(--brand);transform:translateY(-2px)}
 a.card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.card h2{font:700 21px/1.2 "Bricolage Grotesque",system-ui,sans-serif;margin:6px 0}
+.card h2{font:700 21px/1.2 var(--display);margin:6px 0}
 .card p{margin:0;color:var(--ink2);font-size:14.5px}
 .dates{font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--brand);margin-top:12px}
 footer{margin-top:32px;color:var(--ink2);font-size:13px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.logo{width:36px;height:36px;border-radius:10px;object-fit:cover;display:block}
+.btn{border:none;background:var(--btn-grad);color:#fff;font-weight:700;border-radius:10px;padding:9px 14px;text-decoration:none;display:inline-block}
+.btn.ghost{background:var(--btn2-bg);color:var(--brand)}
+.btn.gold{background:var(--gold);color:#241A05}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.linkbtn{border:none;background:none;color:var(--brand);font-weight:600;padding:0;text-decoration:underline;text-underline-offset:3px}
+label.fld{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin:12px 0 4px}
+input[type=text],input[type=tel],input[type=email],input[type=password],select{width:100%;border:1px solid var(--line);background:var(--ground);border-radius:10px;padding:8px 10px}
+.modal{position:fixed;inset:0;background:rgba(10,20,14,.55);display:grid;place-items:center;z-index:60;padding:16px}
+.modal .panel{max-width:440px;width:100%;box-shadow:var(--shadow)}
+.modal h2{font-size:24px;margin-bottom:6px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--ground);padding:10px 16px;border-radius:12px;font-weight:600;transition:transform .3s;z-index:70;max-width:calc(100% - 32px)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.leadgate{text-align:center;padding:30px 28px}
+.leadgate .logo{width:44px;height:44px;font-size:17px;margin:0 auto 14px}
+.leadgate .eyebrow{margin-bottom:2px}
+.leadgate p.muted{margin:0 0 22px}
+.leadgate form{text-align:left}
+.leadgate .fld{margin:14px 0 4px}
+.leadgate .fld:first-of-type{margin-top:0}
+.leadgate .lead-err{font-size:12px;color:var(--bad);min-height:16px;margin-top:4px;text-align:left}
+.leadgate .btn{width:100%;padding:12px 14px;font-size:15.5px;margin-top:18px}
+.acctmodal{overflow-y:auto;align-items:start}
+.acctmodal .panel{margin:24px auto}
+.acct h2{font-size:23px;text-align:center}
+.acct form>p.muted{margin:0 0 18px;text-align:center}
+.acct .lead-err,.acct .acc-hint,.acct .acc-top{text-align:left}
+.acct form .acc-f{margin-bottom:2px}
+.acc-tabs{display:flex;gap:4px;background:var(--surface-2);border-radius:12px;padding:4px;margin:14px 0 18px}
+.acc-tabs button{flex:1;border:none;background:none;border-radius:9px;padding:9px 6px;font-weight:700;font-size:13.5px;color:var(--ink-2)}
+.acc-tabs button[aria-selected="true"]{background:var(--surface);color:var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.acc-hint{font-size:12.5px;color:var(--ink-2);margin-top:4px;text-align:left}
+.acc-pw{display:flex;gap:6px}
+.acc-pw input{flex:1;min-width:0}
+.acc-eye{border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:0 12px;font-weight:700;font-size:13px;color:var(--brand)}
+.acc-phone{display:flex;gap:6px}
+.acc-phone select{flex:0 0 42%;min-width:0;border:1px solid var(--line);background:var(--ground);border-radius:10px;padding:8px 6px;font-size:13.5px}
+.acc-phone input{flex:1;min-width:0}
+.acc-f.has-err input,.acc-f.has-err select{border-color:var(--bad)}
+.acc-sugg{display:inline-flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.acc-sugg .linkbtn{font-size:12.5px}
+input.acc-code{font-family:var(--mono);font-size:24px;letter-spacing:8px;text-align:center;padding:10px}
+input.acc-code:placeholder-shown{font-family:var(--body);font-size:16px;letter-spacing:normal}
+.acc-top{font-size:13.5px;text-align:left;margin-top:14px;padding:10px 12px;border-radius:10px;background:var(--law-soft);color:var(--bad)}
+.acc-top.info{background:var(--acc-soft);color:var(--good)}
+.acc-top .linkbtn{font-size:13.5px}
+.acc-small{font-size:13.5px;color:var(--ink-2);margin:12px 0 0}
+.acc-small .linkbtn{font-size:13.5px}
+.acc-ok{font-size:13.5px;color:var(--good);font-weight:600;margin:14px 0 0}
+.acct p.muted.acc-sub{margin:-2px 0 16px;text-align:center}
+.acc-av{width:64px;height:64px;border-radius:50%;background:var(--btn-grad);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:28px;margin:6px auto 10px}
+.acc-status{font-size:13px;color:var(--good);background:var(--acc-soft);border-radius:10px;padding:8px 10px;margin:0 0 14px;text-align:center}
+.acc-menu{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:left}
+.acc-row{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;border:none;border-top:1px solid var(--line);background:var(--surface);padding:13px 14px;font-weight:600;font-size:15px;color:var(--ink);text-decoration:none;cursor:pointer}
+.acc-row:first-child{border-top:none}
+.acc-row:hover{background:var(--surface-2)}
+.acc-row span{color:var(--ink-2);font-size:18px;line-height:1}
+.acc-row.acc-go{color:var(--brand)}
+.acc-row.acc-out{color:var(--bad)}
+.btn.danger{background:var(--bad);color:#fff}
+.profslot{display:flex;gap:8px;align-items:center}
+.profbtn{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px 4px 4px;font-weight:700;font-size:14px;color:var(--ink)}
+.profbtn .av{width:30px;height:30px;border-radius:50%;background:var(--btn-grad);color:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:14px}
+.profbtn:hover{border-color:var(--brand)}
+@media (max-width:600px){.profbtn .pn{display:none}.profbtn{padding:4px}}
+
 @media (prefers-reduced-motion:reduce){a.card{transition:none}}
 </style>
+
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","y7vd9a7zc9");</script>
+
 </head>
 <body>
 <main>
-  <div class="brandmark"><img src="assets/arivupro-logo.webp" alt="ArivuPro Academy"></div>
-  <div class="eyebrow">ArivuPro Academy · January 2027</div>
+  <header class="topbar">
+    <div class="brandmark"><img src="assets/arivupro-logo.webp" alt="ArivuPro Academy"></div>
+    <div class="profslot" id="profslot"></div>
+  </header>
+  <div class="eyebrow">ArivuPro Academy · January, May &amp; September 2027 attempts</div>
   <h1>Rank Road</h1>
-  <p class="lead">Pick your exam. Every day of your plan is laid out — chapters, recaps, weekly tests, revisions and mocks — and you tick it off as you go. Your progress stays on this device.</p>
-  <div class="grid">
-    <a class="card" href="foundation/"><div class="eyebrow">4 papers</div><h2>CA Foundation</h2><p>Accounting, Business Laws, Quantitative Aptitude, Business Economics.</p><div class="dates">3 · 5 · 7 · 9 Jan 2027</div></a>
-    <a class="card" href="inter-group1/"><div class="eyebrow">3 papers</div><h2>CA Inter — Group I</h2><p>Advanced Accounting, Corporate &amp; Other Laws, Taxation.</p><div class="dates">2 · 4 · 6 Jan 2027</div></a>
-    <a class="card" href="inter-group2/"><div class="eyebrow">3 papers</div><h2>CA Inter — Group II</h2><p>Cost &amp; Management Accounting, Auditing &amp; Ethics, FM &amp; SM.</p><div class="dates">8 · 10 · 12 Jan 2027</div></a>
-    <a class="card" href="inter-both/"><div class="eyebrow">6 papers</div><h2>CA Inter — Both Groups</h2><p>All six Intermediate papers on one plan.</p><div class="dates">2 – 12 Jan 2027</div></a>
+  <p class="lead">Pick your course, then your attempt (January, May or September 2027), your start date and your hours. Every day of your plan is laid out — chapters, recaps, weekly tests, revisions and mocks — and you tick it off as you go. With a free account, your progress is saved and opens on any phone or laptop.</p>
+  <div class="grid" id="courses">
+    <a class="card" href="foundation/"><div class="eyebrow">4 papers</div><h2>CA Foundation</h2><p>Accounting, Business Laws, Quantitative Aptitude, Business Economics.</p><div class="dates">Jan · May · Sept 2027</div></a>
+    <a class="card" href="inter-group1/"><div class="eyebrow">3 papers</div><h2>CA Inter — Group I</h2><p>Advanced Accounting, Corporate &amp; Other Laws, Taxation.</p><div class="dates">Jan · May · Sept 2027</div></a>
+    <a class="card" href="inter-group2/"><div class="eyebrow">3 papers</div><h2>CA Inter — Group II</h2><p>Cost &amp; Management Accounting, Auditing &amp; Ethics, FM &amp; SM.</p><div class="dates">Jan · May · Sept 2027</div></a>
+    <a class="card" href="inter-both/"><div class="eyebrow">6 papers</div><h2>CA Inter — Both Groups</h2><p>All six Intermediate papers on one plan.</p><div class="dates">Jan · May · Sept 2027</div></a>
   </div>
-  <footer>Exam dates as per ICAI Announcement No. 13-CA(EXAM)/JANUARY/2027 dated 23 September 2026.</footer>
+  <footer>January 2027 dates as per ICAI Announcement No. 13-CA(EXAM)/JANUARY/2027 dated 23 September 2026. May and September 2027 dates are expected dates based on the 2026 schedules until ICAI announces them.</footer>
 </main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const LEAD_KEY = "arivupro-rankroad-lead";
+const LEAD_URL = "https://script.google.com/macros/s/AKfycbwnI7kau0krWyqoa4Zc7Q-PmsEj7CWLJhLaGBaPex37O_e8Itj-2MgIR53_lJyqVtyo1A/exec";
+let S = {name:"", phone:"", email:"", leadSent:false};
+try{ const r = JSON.parse(localStorage.getItem(LEAD_KEY)); if(r) S = Object.assign(S, r); }catch(e){}
+if(!S.email){   // details typed on the old form but only kept inside a course's saved data
+  for(const k of ["foundation","g1","g2","both"].flatMap(c=>["arivupro-rankroad-"+c+"-jan27-v2", c==="foundation"?"arivupro-rankroad-jan27-v1":"arivupro-rankroad-"+c+"-jan27-v1"])){
+    try{ const o = JSON.parse(localStorage.getItem(k)); if(o && o.email && o.phone){ S = {name:o.name||"", phone:o.phone, email:o.email, leadSent:!!o.leadSent}; break; } }catch(e){}
+  }
+}
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(msg,ms){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("show"),ms||2400); }
+function validEmail(v){ return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/.test((v||"").trim()); }
+function sendLead(data){ return fetch(LEAD_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({ts:new Date().toISOString(),app:"landing"},data))}); }
+function saveSharedLead(d){ try{ localStorage.setItem(LEAD_KEY, JSON.stringify(d)); }catch(e){} }
+</script>
+<script>
+/* ================= Rank Road accounts: sign up / log in, profile menu, and keeping progress in the student's account =================
+   Runs inside a course app (CFG defined) and on the home page. Progress is always saved on the device first; when logged in
+   it is also saved to Supabase a few seconds later.
+   App globals used: S, CFG, WIZ, flush, save, regen, show, refreshHeader, defaultDay, badgeList, prevBadges, selDay, sendProgress.
+   Shared globals (app + home page): S, LEAD_KEY, toast, esc, $, validEmail, sendLead, saveSharedLead.                        */
+const ACC = (() => {
+  const IN_APP = typeof CFG !== "undefined";
+  const COURSE = IN_APP ? CFG.id : null;
+  const ASSETS = IN_APP ? "../assets/" : "assets/";
+  const FOLDER = {foundation: "foundation/", g1: "inter-group1/", g2: "inter-group2/", both: "inter-both/"};
+  const COURSE_NAME = {foundation: "CA Foundation", g1: "CA Inter Group I", g2: "CA Inter Group II", both: "CA Inter Both Groups"};
+  const SB_URL = "https://kwrtajyhifvlasqierkf.supabase.co";
+  const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt3cnRhanloaWZ2bGFzcWllcmtmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNDAzMTgsImV4cCI6MjEwNTgxNjMxOH0.-JGBHqcLVLDv2XG70E16a0P3G9s7cZQJwEeoFjsopmw";
+  const SB_SESSION = "sb-kwrtajyhifvlasqierkf-auth-token";
+  const LIB_SB = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js";
+  const LIB_PHONE = "https://cdn.jsdelivr.net/npm/libphonenumber-js@1.13.14/bundle/libphonenumber-min.js";
+  const COURSES = ["foundation", "g1", "g2", "both"];
+  const keyOf = c => "arivupro-rankroad-" + c + "-jan27-v2";
+  const oldKeyOf = c => c === "foundation" ? "arivupro-rankroad-jan27-v1" : "arivupro-rankroad-" + c + "-jan27-v1";
+  const metaKey = c => keyOf(c) + "-sync";
+  const LATER = "arivupro-rankroad-acct-later";
+  const MIN_PW = 8;
+  const OFFLINE = "You're offline. Please connect to the internet and try again — your study plan still works offline.";
+  const PROFILE_MODES = ["profile", "name", "chgpw", "chgemail", "emailcode", "clear"];
+
+  let sb = null, sbP = null, phP = null, user = null, seq = 0, pushT = null, chain = Promise.resolve(), lastSaved = 0, lastErr = false;
+  let M = null, timer = null;
+
+  const ls = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+  };
+  function loadScript(src) { return new Promise((ok, no) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); }); }
+  function client() {
+    if (sb) return Promise.resolve(sb);
+    if (!sbP) sbP = loadScript(LIB_SB).then(() => (sb = window.supabase.createClient(SB_URL, SB_KEY, {auth: {persistSession: true, autoRefreshToken: true, detectSessionInUrl: false}})))
+      .catch(e => { sbP = null; throw e; });
+    return sbP;
+  }
+  function phoneLib() {
+    if (window.libphonenumber) return Promise.resolve(window.libphonenumber);
+    if (!phP) phP = loadScript(LIB_PHONE).then(() => window.libphonenumber).catch(() => { phP = null; return null; });
+    return phP;
+  }
+
+  /* ---------------- local copies of each course ---------------- */
+  const blank = () => ({name: "", phone: "", email: "", leadSent: false, days: {}, scores: {}, tests: {}, rating: {}, seenBadges: [], plan: null});
+  function readLocal(c) {
+    if (c === COURSE) return S;
+    const v2 = ls.get(keyOf(c)); if (v2) return v2;
+    const o = ls.get(oldKeyOf(c)); if (!o) return null;
+    const st = blank(); ["name", "phone", "email", "leadSent", "scores", "tests", "rating"].forEach(k => { if (o[k]) st[k] = o[k]; });
+    return st;
+  }
+  function currentTab() { const b = document.querySelector('nav.tabs button[aria-selected="true"]'); return (b && b.dataset.tab) || "today"; }
+  function writeLocal(c, st) {
+    if (c !== COURSE) { ls.set(keyOf(c), st); return; }
+    S = Object.assign(blank(), st); flush(); regen(); selDay = defaultDay();
+    prevBadges = new Set(badgeList().filter(b => b[3]).map(b => b[1]));
+    refreshHeader(); if (!WIZ) show(currentTab());
+  }
+  function persistProfile() {
+    if (IN_APP) flush();
+    saveSharedLead({name: S.name, phone: S.phone, email: S.email, leadSent: !!S.leadSent});
+  }
+  const hasData = st => !!st && (!!st.plan
+    || Object.values(st.days || {}).some(d => d && ((d.t && Object.keys(d.t).length) || d.note || d.hrs != null || d.focus))
+    || ["scores", "tests", "rating"].some(k => Object.values(st[k] || {}).some(v => v != null && v !== "" && v !== 0)));
+  const getMeta = c => ls.get(metaKey(c)) || {uid: null, rev: 0, dirty: false};
+  const setMeta = (c, m) => ls.set(metaKey(c), m);
+  const registered = () => !!(S.leadSent || (S.email && S.phone));
+  const myCourse = () => (IN_APP ? COURSE : (user && user.user_metadata && user.user_metadata.course)) || null;
+  /* the course this device has been used for most recently (or has the most progress in) */
+  function localCourse() {
+    let best = null, bestKey = [-1, -1];
+    for (const c of COURSES) {
+      const st = readLocal(c); if (!st) continue;
+      const activity = Object.values(st.days || {}).reduce((a, d) => a + Object.keys((d && d.t) || {}).length, 0)
+        + ["scores", "tests", "rating"].reduce((a, k) => a + Object.values(st[k] || {}).filter(v => v != null && v !== "").length, 0) + (st.plan ? 1 : 0);
+      const key = [st.savedAt || 0, activity];
+      if (key[0] > bestKey[0] || (key[0] === bestKey[0] && key[1] > bestKey[1])) { best = c; bestKey = key; }
+    }
+    return best;
+  }
+
+  /* two copies of the same course (this device + the account): ticks from both are kept, newest values win */
+  function merge(a, b) {
+    if (!b) return a; if (!a) return b;
+    const newer = (a.savedAt || 0) >= (b.savedAt || 0) ? a : b, older = newer === a ? b : a;
+    const out = JSON.parse(JSON.stringify(newer));
+    for (const k of ["scores", "tests", "rating"]) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
+    if (JSON.stringify(a.plan || null) === JSON.stringify(b.plan || null)) {
+      out.days = {};
+      for (const d of new Set([...Object.keys(a.days || {}), ...Object.keys(b.days || {})])) {
+        const n = (newer.days || {})[d] || {}, o = (older.days || {})[d] || {};
+        out.days[d] = Object.assign({}, o, n, {t: Object.assign({}, o.t || {}, n.t || {})});
+      }
+    }
+    for (const k of ["name", "phone", "email"]) if (!out[k]) out[k] = older[k] || "";
+    out.leadSent = !!(a.leadSent || b.leadSent);
+    out.seenBadges = [...new Set([...(a.seenBadges || []), ...(b.seenBadges || [])])];
+    return out;
+  }
+
+  /* ---------------- saving to / loading from the account ---------------- */
+  function push(c) { const p = chain.then(() => pushOnce(c)); chain = p.catch(() => {}); return p; }
+  async function pushOnce(c) {
+    if (!user || !navigator.onLine) return false;
+    try {
+      for (let i = 0; i < 4; i++) {
+        const m = getMeta(c), s0 = seq, st = readLocal(c);
+        if (!st) return true;
+        const {data, error} = await sb.rpc("save_progress", {p_course: c, p_state: st, p_base_rev: m.uid === user.id ? (m.rev || 0) : 0});
+        if (error) throw error;
+        if (data.ok) {
+          const still = c === COURSE && seq !== s0;
+          setMeta(c, {uid: user.id, rev: data.rev, dirty: still});
+          lastSaved = Date.now(); lastErr = false;
+          if (still) schedule();
+          return true;
+        }
+        writeLocal(c, merge(readLocal(c), data.state));
+        setMeta(c, {uid: user.id, rev: data.rev, dirty: true});
+      }
+      return false;
+    } catch (e) { lastErr = true; throw e; }
+    finally { statusRefresh(); }
+  }
+  function schedule() { clearTimeout(pushT); pushT = setTimeout(() => push(COURSE).catch(() => {}), 2500); }
+  function changed() {
+    seq++;
+    if (!user || !IN_APP) return;
+    const m = getMeta(COURSE); setMeta(COURSE, {uid: user.id, rev: m.uid === user.id ? m.rev : 0, dirty: true});
+    schedule(); statusRefresh();
+  }
+  async function pull(c) {
+    const {data, error} = await sb.from("progress").select("state,rev").eq("course", c).maybeSingle();
+    if (error) throw error;
+    const m = getMeta(c);
+    let local = readLocal(c);
+    if (local && hasData(local) && m.uid !== user.id && local.email && user.email && local.email.toLowerCase() !== user.email.toLowerCase()) {
+      ls.set(keyOf(c) + "-other-" + Date.now(), local);                  // someone else's progress on this device: keep it aside, don't mix it in
+      ls.del(oldKeyOf(c)); if (c !== COURSE) ls.del(keyOf(c)); else writeLocal(c, blank());
+      local = null;
+    }
+    if (!data) {
+      setMeta(c, {uid: user.id, rev: 0, dirty: !!(local && hasData(local))});
+      if (local && hasData(local)) await push(c);
+      return;
+    }
+    if (m.uid === user.id && !m.dirty) {
+      if (m.rev !== data.rev) { writeLocal(c, data.state); setMeta(c, {uid: user.id, rev: data.rev, dirty: false}); }
+      return;
+    }
+    if (m.uid === user.id && m.rev === data.rev) { await push(c); return; }
+    const mixed = local && hasData(local);
+    writeLocal(c, mixed ? merge(local, data.state) : data.state);
+    setMeta(c, {uid: user.id, rev: data.rev, dirty: !!mixed});
+    if (mixed) await push(c);
+  }
+  async function syncDirty() { for (const c of COURSES) { const m = getMeta(c); if (m.dirty && m.uid === user.id) await push(c).catch(() => {}); } }
+  function rememberCourse() {
+    if (IN_APP && user && (user.user_metadata || {}).course !== COURSE)
+      sb.auth.updateUser({data: {course: COURSE}}).then(r => { if (r && r.data && r.data.user) user = r.data.user; }).catch(() => {});
+  }
+
+  async function afterAccount(info) {
+    S.name = info.name; S.phone = info.phone; S.email = user.email; S.leadSent = true;
+    if (IN_APP) S.savedAt = Date.now();
+    persistProfile();
+    sendLead({name: S.name, phone: S.phone, email: S.email, country: info.country, source: info.kind === "upgrade" ? "Old form → account" : "New signup", account: "Yes"}).catch(() => {});
+    for (const c of COURSES) {                                            // everything this device has, for every course
+      const st = readLocal(c);
+      if (c !== COURSE && st && !ls.get(keyOf(c))) ls.set(keyOf(c), st);
+      if (st && hasData(st)) { setMeta(c, {uid: user.id, rev: 0, dirty: true}); await push(c).catch(() => {}); }
+      else setMeta(c, {uid: user.id, rev: 0, dirty: false});
+    }
+    if (typeof sendProgress === "function") sendProgress(false);
+  }
+  async function afterLogin(msg) {
+    let prof = null;
+    try { prof = (await sb.from("students").select("name,phone").eq("id", user.id).maybeSingle()).data; } catch (e) {}
+    if (IN_APP) { try { await pull(COURSE); } catch (e) {} }
+    if (prof) { S.name = prof.name || S.name; S.phone = prof.phone || S.phone; }
+    S.email = user.email; S.leadSent = true;
+    persistProfile();
+    const first = S.name ? ", " + S.name.split(" ")[0] : "";
+    if (!IN_APP) {
+      const c = myCourse() || localCourse();
+      if (c && FOLDER[c]) { closeModal(); toast("Welcome back" + first + " — opening your plan…", 3000); location.href = FOLDER[c]; return; }
+      closeModal(); headerBtn(); toast("Welcome back" + first + "! Pick your course below.", 4000); scrollToCourses(); return;
+    }
+    closeModal(); refreshHeader(); rememberCourse();
+    show(!S.plan && !hasData(S) ? "plan" : currentTab() === "plan" ? "today" : currentTab());
+    toast(msg || "Welcome back" + first + " — your progress is here.", 4000);
+    if (typeof sendProgress === "function") sendProgress(false);
+  }
+  function scrollToCourses() { const g = document.getElementById("courses"); if (g) g.scrollIntoView({behavior: "smooth", block: "start"}); }
+  async function logout(force) {
+    if (!force) {
+      await syncDirty();
+      if (COURSES.some(c => getMeta(c).dirty && hasData(readLocal(c)))) return "unsaved";
+    }
+    try { await sb.auth.signOut({scope: "local"}); } catch (e) {}
+    user = null;
+    for (const c of COURSES) { ls.del(keyOf(c)); ls.del(metaKey(c)); ls.del(oldKeyOf(c)); }
+    ls.del(LEAD_KEY);
+    closeModal();
+    if (IN_APP) { writeLocal(COURSE, blank()); show("today"); }
+    else { S = {name: "", phone: "", email: "", leadSent: false}; headerBtn(); }
+    toast("You're logged out. Your progress is safe in your account.", 3500);
+    if (IN_APP) openModal("login", {canLater: false});
+    return "ok";
+  }
+
+  /* ---------------- checking what students type ---------------- */
+  const POPULAR = ["gmail.com", "yahoo.com", "yahoo.in", "yahoo.co.in", "hotmail.com", "outlook.com", "live.com", "icloud.com", "rediffmail.com", "protonmail.com", "zoho.com", "ymail.com", "msn.com", "aol.com"];
+  const DISPOSABLE = ["mailinator.com", "10minutemail.com", "guerrillamail.com", "tempmail.com", "temp-mail.org", "yopmail.com", "trashmail.com", "sharklasers.com", "getnada.com", "dispostable.com", "maildrop.cc", "throwawaymail.com", "fakeinbox.com", "mintemail.com", "emailondeck.com", "mohmal.com", "tempmailo.com", "moakt.com", "tempail.com", "burnermail.io"];
+  function lev(a, b) {
+    const d = Array.from({length: a.length + 1}, (_, i) => [i]);
+    for (let j = 1; j <= b.length; j++) d[0][j] = j;
+    for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    return d[a.length][b.length];
+  }
+  function suggest(email) {
+    const [u, dom] = email.split("@");
+    if (!dom || POPULAR.includes(dom)) return null;
+    let best = null;
+    for (const p of POPULAR) { const k = lev(dom, p); if (k <= 2 && (!best || k < best.k)) best = {p, k}; }
+    if (!best && /\.(con|cmo|comm|cm|om|vom|xom)$/.test(dom)) return u + "@" + dom.replace(/\.[a-z]+$/, ".com");
+    return best ? u + "@" + best.p : null;
+  }
+  async function domainOk(dom) {
+    const q = async type => {
+      const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 3500);
+      try { return await (await fetch("https://cloudflare-dns.com/dns-query?name=" + encodeURIComponent(dom) + "&type=" + type, {headers: {accept: "application/dns-json"}, signal: ctl.signal})).json(); }
+      finally { clearTimeout(t); }
+    };
+    try {
+      const mx = await q("MX");
+      if (mx.Status === 3) return false;
+      if ((mx.Answer || []).some(a => a.type === 15)) return true;
+      return ((await q("A")).Answer || []).length > 0;
+    } catch (e) { return true; }                                           // can't check right now: don't block the student
+  }
+  async function checkEmail(full) {
+    const e = (M.email || "").trim().toLowerCase(); M.email = e;
+    if (!e) { M.err.email = "Please type your email."; return false; }
+    if (!validEmail(e)) { M.err.email = "That doesn't look like an email. Example: <b>name@gmail.com</b>"; return false; }
+    if (!full) return true;
+    const dom = e.split("@")[1];
+    if (DISPOSABLE.includes(dom)) { M.err.email = "Please use your personal email, like Gmail. You'll need it if you ever forget your password."; return false; }
+    const s = suggest(e);
+    if (s && M.noSugg !== e) {
+      M.err.email = `Did you mean <b>${esc(s)}</b>? <span class="acc-sugg"><button type="button" class="linkbtn" data-act="sugg-yes" data-v="${esc(s)}">Yes, fix it</button> <button type="button" class="linkbtn" data-act="sugg-no">No, my email is correct</button></span>`;
+      return false;
+    }
+    if (!(await domainOk(dom))) { M.err.email = "We can't find this email provider. Please check the spelling after the @."; return false; }
+    return true;
+  }
+
+  const TOP = [["IN", "India", 91], ["AE", "United Arab Emirates", 971], ["SA", "Saudi Arabia", 966], ["QA", "Qatar", 974], ["OM", "Oman", 968], ["KW", "Kuwait", 965], ["BH", "Bahrain", 973], ["NP", "Nepal", 977], ["LK", "Sri Lanka", 94], ["BD", "Bangladesh", 880], ["SG", "Singapore", 65], ["MY", "Malaysia", 60], ["GB", "United Kingdom", 44], ["US", "United States", 1], ["CA", "Canada", 1], ["AU", "Australia", 61]];
+  let regionNames = null; try { regionNames = new Intl.DisplayNames(["en"], {type: "region"}); } catch (e) {}
+  const countryName = cc => { const t = TOP.find(x => x[0] === cc); return t ? t[1] : (regionNames ? regionNames.of(cc) : cc); };
+  const callingCode = cc => { const t = TOP.find(x => x[0] === cc); if (t) return String(t[2]); try { return window.libphonenumber.getCountryCallingCode(cc); } catch (e) { return ""; } };
+  function countryOptions() {
+    const opt = ([cc, nm, code]) => `<option value="${cc}" ${cc === M.cc ? "selected" : ""}>${esc(nm)} (+${code})</option>`;
+    let h = TOP.map(opt).join("");
+    const lib = window.libphonenumber;
+    if (lib) {
+      const rest = lib.getCountries().filter(cc => !TOP.some(t => t[0] === cc)).map(cc => [cc, countryName(cc), lib.getCountryCallingCode(cc)]).sort((a, b) => a[1].localeCompare(b[1]));
+      h += `<option disabled>──────────</option>` + rest.map(opt).join("");
+    }
+    return h;
+  }
+  function splitPhone(p) {
+    const s = String(p || ""), d = s.replace(/\D/g, "");
+    if (/^\+91\d{10}$/.test(s.replace(/\s/g, ""))) return {cc: "IN", national: d.slice(2), valid: /^[6-9]/.test(d.slice(2))};
+    if (/^[6-9]\d{9}$/.test(d)) return {cc: "IN", national: d, valid: true};
+    if (s.startsWith("+") && window.libphonenumber) {
+      const x = window.libphonenumber.parsePhoneNumberFromString(s);
+      if (x && x.country) return {cc: x.country, national: x.nationalNumber, valid: x.isValid()};
+    }
+    return {cc: "IN", national: d, valid: false};
+  }
+  function phoneCheck(cc, raw) {
+    let d = String(raw || "").replace(/\D/g, "");
+    const nm = countryName(cc), code = callingCode(cc);
+    if (!d) return {err: "Please type your mobile number."};
+    if (cc === "IN") {
+      d = d.replace(/^0+/, ""); if (d.length === 12 && d.startsWith("91")) d = d.slice(2);
+      if (d.length !== 10) return {err: `Indian mobile numbers have 10 digits. You've typed ${d.length}.`};
+      if (!/^[6-9]/.test(d)) return {err: "Indian mobile numbers start with 6, 7, 8 or 9."};
+      return {e164: "+91" + d, country: "IN"};
+    }
+    const lib = window.libphonenumber;
+    if (lib) {
+      let p = lib.parsePhoneNumberFromString(d, cc);
+      if (!(p && p.isValid())) { const p2 = lib.parsePhoneNumberFromString("+" + d); if (p2 && p2.isValid() && p2.country === cc) p = p2; }
+      if (p && p.isValid()) return {e164: p.number, country: cc};
+      const L = lib.validatePhoneNumberLength(d, cc);
+      if (L === "TOO_SHORT") return {err: `This number is too short for ${nm}. Please check it.`};
+      if (L === "TOO_LONG") return {err: `This number is too long for ${nm}. Please check it.`};
+      return {err: `This doesn't look like a ${nm} mobile number. Please check it.`};
+    }
+    d = d.replace(/^0+/, "");
+    if (d.length < 6 || d.length > 14) return {err: "Please check your mobile number."};
+    return {e164: "+" + code + d, country: cc};
+  }
+  function authMsg(e, ctx) {
+    const m = String((e && (e.message || e.error_description)) || "");
+    if (!navigator.onLine || /failed to fetch|networkerror|network request|load failed/i.test(m)) return "We couldn't reach the internet. Please check your connection and try again.";
+    if (/rate limit|too many|security purposes/i.test(m)) return "Too many tries in a short time. Please wait a minute and try again.";
+    if (ctx === "code" && /token|otp|expired|invalid/i.test(m)) return "That code isn't right, or it has expired. Check the latest email from us, or tap “send a new code”.";
+    if (/already registered|already been registered|already exists/i.test(m)) return ctx === "chgemail" ? "Another account already uses this email." : existsMsg();
+    if (/invalid login/i.test(m)) return "Email or password is not correct. Try again, or tap “Forgot password?”";
+    if (/password/i.test(m) && /different|same/i.test(m)) return "Please choose a different password from your old one.";
+    if (/password/i.test(m)) return "Please choose a stronger password — at least 8 characters, with letters and numbers.";
+    if (/sending|smtp|email/i.test(m)) return "We couldn't send the email just now. Please try again in a few minutes.";
+    return "Something went wrong. Please try again.";
+  }
+  const existsMsg = () => `You already have an account with this email. <button type="button" class="linkbtn" data-act="mode" data-m="login">Log in instead</button>`;
+
+  /* ---------------- the account window ---------------- */
+  function openModal(mode, opt = {}) {
+    closeModal();
+    const old = splitPhone(S.phone);
+    M = {mode, prev: mode, name: S.name || "", email: (S.email || "").trim(), cc: old.cc, phone: old.national, pw: "", pw0: "", code: "", err: {}, top: "", tone: "", busy: false, showPw: false,
+         canLater: opt.canLater != null ? opt.canLater : registered(), askPhone: mode !== "upgrade" || !old.valid, askName: mode === "upgrade" && !S.name, resendAt: 0};
+    if (mode === "chgemail") M.email = "";
+    const el = document.createElement("div"); el.className = "modal acctmodal"; document.body.appendChild(el);
+    el.addEventListener("click", onClick); el.addEventListener("input", onInput); el.addEventListener("change", onInput); el.addEventListener("submit", e => { e.preventDefault(); submit(); });
+    render(true);
+    phoneLib().then(lib => { if (lib && M && $("#acc-cc")) { $("#acc-cc").innerHTML = countryOptions(); if (M.mode === "upgrade" && !M.askPhone && !splitPhone(S.phone).valid) { M.askPhone = true; render(); } } });
+    timer = setInterval(resendLabel, 1000);
+  }
+  function closeModal() { const el = document.querySelector(".acctmodal"); if (el) el.remove(); M = null; clearInterval(timer); }
+  const wrap = (f, inner) => `<div class="acc-f ${M.err[f] ? "has-err" : ""}" data-for="${f}">${inner}<div class="lead-err">${M.err[f] || ""}</div></div>`;
+  function field(f, label, type, o = {}) {
+    return wrap(f, `<label class="fld" for="acc-${f}">${label}</label>
+      <input id="acc-${f}" data-f="${f}" type="${type}" value="${esc(M[f] || "")}" placeholder="${esc(o.ph || "")}" ${o.attrs || ""}>
+      ${o.hint ? `<div class="acc-hint">${o.hint}</div>` : ""}`);
+  }
+  function pwField(label, hint, auto, f = "pw") {
+    return wrap(f, `<label class="fld" for="acc-${f}">${label}</label>
+      <div class="acc-pw"><input id="acc-${f}" data-f="${f}" type="${M.showPw ? "text" : "password"}" value="${esc(M[f] || "")}" autocomplete="${auto}"><button type="button" class="acc-eye" data-act="eye" data-for="${f}">${M.showPw ? "Hide" : "Show"}</button></div>
+      ${hint ? `<div class="acc-hint">${hint}</div>` : ""}`);
+  }
+  function phoneField() {
+    return wrap("phone", `<label class="fld" for="acc-phone">Mobile number</label>
+      <div class="acc-phone"><select id="acc-cc" data-f="cc" aria-label="Country code">${countryOptions()}</select><input id="acc-phone" data-f="phone" type="tel" inputmode="numeric" autocomplete="tel-national" value="${esc(M.phone || "")}" placeholder="${M.cc === "IN" ? "10-digit mobile number" : "Mobile number"}"></div>`);
+  }
+  const small = h => `<p class="acc-small">${h}</p>`;
+  const act = (a, label, extra = "") => `<button type="button" class="linkbtn" data-act="${a}" ${extra}>${label}</button>`;
+  const first = () => (S.name || M.name || "").trim().split(" ")[0];
+  const back = small(act("mode", "Back", 'data-m="profile"'));
+  const emailAttrs = 'autocomplete="email" inputmode="email"';
+  const codeAttrs = 'inputmode="numeric" autocomplete="one-time-code" maxlength="10" class="acc-code"';
+  function codeHelp() { return small(`Didn't get it? Check your <b>Spam</b> or <b>Promotions</b> folder, or <button type="button" class="linkbtn" data-act="resend" id="acc-resend"></button>`); }
+  function render(focusFirst) {
+    const el = document.querySelector(".acctmodal"); if (!el || !M) return;
+    const m = M.mode, pwHint = "At least 8 characters — something you'll remember.";
+    let body = "", go = "", goCls = "gold", foot = "";
+    if (m === "signup") {
+      body = `<h2 id="acc-title">Start your Rank Road</h2><p class="muted">Create your free account. Your progress is saved safely, and you can open it on any phone or laptop.</p>
+        ${field("name", "Full name", "text", {ph: "e.g. Ananya Sharma", attrs: 'autocomplete="name"'})}
+        ${field("email", "Email", "email", {ph: "you@gmail.com", attrs: emailAttrs})}
+        ${phoneField()}${pwField("Create a password", pwHint, "new-password")}`;
+      go = "Create my account";
+      foot = small("Already have an account? " + act("mode", "Log in", 'data-m="login"'));
+    } else if (m === "login") {
+      body = `<h2 id="acc-title">Welcome back!</h2><p class="muted">Log in with the email and password you used before.</p>
+        ${field("email", "Email", "email", {ph: "you@gmail.com", attrs: emailAttrs})}${pwField("Password", "", "current-password")}`;
+      go = "Log in";
+      foot = small(act("mode", "Forgot password?", 'data-m="forgot"')) + small("New here? " + act("mode", "Create an account", `data-m="${registered() ? "upgrade" : "signup"}"`));
+    } else if (m === "upgrade") {
+      body = `<h2 id="acc-title">Good news${first() ? ", " + esc(first()) : ""}!</h2>
+        <p class="muted">You can now open Rank Road on <b>any phone or laptop</b> — and your progress is always safe. Just create a password. It takes 30 seconds.</p>
+        ${M.askName ? field("name", "Full name", "text", {ph: "e.g. Ananya Sharma", attrs: 'autocomplete="name"'}) : ""}
+        ${field("email", "Your email", "email", {hint: "Please check this is correct — we'll send you a code here.", attrs: emailAttrs})}
+        ${M.askPhone ? phoneField() : ""}${pwField("Create a password", pwHint, "new-password")}`;
+      go = "Save my progress";
+      foot = `<p class="acc-ok">✓ Everything you've done so far stays exactly as it is.</p>` + small("Already made an account on another phone? " + act("mode", "Log in", 'data-m="login"'));
+    } else if (m === "code") {
+      body = `<h2 id="acc-title">Check your email</h2><p class="muted">We've sent a 6-digit code to <b>${esc(M.email)}</b>. Type it below.</p>
+        ${field("code", "Your code", "text", {ph: "6-digit code", attrs: codeAttrs})}`;
+      go = "Confirm";
+      foot = codeHelp() + small("Wrong email? " + act("change", "Change it"));
+    } else if (m === "forgot") {
+      body = `<h2 id="acc-title">Forgot your password? No problem.</h2><p class="muted">Type your email and we'll send you a 6-digit code.</p>
+        ${field("email", "Email", "email", {ph: "you@gmail.com", attrs: emailAttrs})}`;
+      go = "Send me a code";
+      foot = small(act("mode", "Back to log in", 'data-m="login"'));
+    } else if (m === "reset") {
+      body = `<h2 id="acc-title">Set a new password</h2><p class="muted">If <b>${esc(M.email)}</b> has a Rank Road account, we've sent it a 6-digit code. Type the code, then choose a new password.</p>
+        ${field("code", "Your code", "text", {ph: "6-digit code", attrs: codeAttrs})}${pwField("New password", pwHint, "new-password")}`;
+      go = "Save new password";
+      foot = codeHelp() + small(act("mode", "Back to log in", 'data-m="login"'));
+    } else if (m === "profile") {
+      const nm = S.name || "Your profile", c = myCourse();
+      body = `<div class="acc-av" aria-hidden="true">${esc((S.name || (user && user.email) || "?").trim().charAt(0).toUpperCase())}</div>
+        <h2 id="acc-title">${esc(nm)}</h2><p class="muted acc-sub">${esc(user ? user.email : "")}</p>
+        ${IN_APP ? `<div class="acc-status" id="acctstatus">${esc(statusText())}</div>` : ""}
+        <div class="acc-menu">
+          ${!IN_APP && c ? `<a class="acc-row acc-go" href="${FOLDER[c]}">Go to my plan · ${esc(COURSE_NAME[c])}<span>›</span></a>` : ""}
+          ${IN_APP ? `<a class="acc-row" href="../?courses">Switch course<span>›</span></a>` : ""}
+          <button type="button" class="acc-row" data-act="mode" data-m="name">Change your name<span>›</span></button>
+          <button type="button" class="acc-row" data-act="mode" data-m="chgemail">Change email<span>›</span></button>
+          <button type="button" class="acc-row" data-act="mode" data-m="chgpw">Change password<span>›</span></button>
+          ${IN_APP ? `<button type="button" class="acc-row" data-act="mode" data-m="clear">Clear my progress<span>›</span></button>` : ""}
+          <button type="button" class="acc-row acc-out" data-act="logout">Log out<span>›</span></button>
+        </div>`;
+      go = null;
+      foot = small(act("close", "Close"));
+    } else if (m === "name") {
+      body = `<h2 id="acc-title">Change your name</h2><p class="muted">This is the name shown on your plan.</p>${field("name", "Full name", "text", {attrs: 'autocomplete="name"'})}`;
+      go = "Save name"; foot = back;
+    } else if (m === "chgpw") {
+      body = `<h2 id="acc-title">Change your password</h2><p class="muted">Type your current password first, then choose a new one.</p>
+        ${pwField("Current password", "", "current-password", "pw0")}${pwField("New password", pwHint, "new-password")}`;
+      go = "Save new password"; foot = small(act("mode", "Forgot your current password?", 'data-m="forgot"')) + back;
+    } else if (m === "chgemail") {
+      body = `<h2 id="acc-title">Change your email</h2><p class="muted">Your email now is <b>${esc(user ? user.email : "")}</b>. We'll send a code to the new email to check it's yours.</p>
+        ${field("email", "New email", "email", {ph: "you@gmail.com", attrs: emailAttrs})}${pwField("Your password", "", "current-password", "pw0")}`;
+      go = "Send me a code"; foot = back;
+    } else if (m === "emailcode") {
+      body = `<h2 id="acc-title">Check your new email</h2><p class="muted">We've sent a 6-digit code to <b>${esc(M.email)}</b>. Type it below to finish changing your email.</p>
+        ${field("code", "Your code", "text", {ph: "6-digit code", attrs: codeAttrs})}`;
+      go = "Confirm"; foot = codeHelp() + small(act("mode", "Use a different email", 'data-m="chgemail"')) + back;
+    } else if (m === "clear") {
+      body = `<h2 id="acc-title">Clear your progress?</h2><p class="muted">This clears every tick, score and note in <b>${esc(IN_APP ? CFG.title : "")}</b> — on this device and in your account. Your account and your plan settings stay. This can't be undone.</p>`;
+      go = "Yes, clear my progress"; goCls = "danger"; foot = back;
+    }
+    if (M.canLater && !PROFILE_MODES.includes(m) && m !== "code") foot += small(act("later", m === "upgrade" ? "Not now, remind me later" : "Not now"));
+    const tabs = (m === "signup" || m === "login") && !registered() ? `<div class="acc-tabs" role="tablist"><button type="button" role="tab" data-act="mode" data-m="signup" aria-selected="${m === "signup"}">I'm new here</button><button type="button" role="tab" data-act="mode" data-m="login" aria-selected="${m === "login"}">I already have an account</button></div>` : "";
+    el.innerHTML = `<div class="panel leadgate acct" role="dialog" aria-modal="true" aria-labelledby="acc-title">
+      ${m === "profile" ? "" : `<img class="logo" src="${ASSETS}arivupro-icon.webp" alt="ArivuPro"><div class="eyebrow">ArivuPro Academy · Rank Road</div>`}${tabs}
+      <form novalidate>${body}${M.top ? `<div class="acc-top ${M.tone}">${M.top}</div>` : ""}
+      ${go ? `<button class="btn ${goCls}" type="submit" ${M.busy ? "disabled" : ""}>${M.busy ? "Please wait…" : go}</button>` : ""}</form>${foot}</div>`;
+    resendLabel();
+    const focusEl = el.querySelector(".acc-f.has-err input") || (focusFirst && [...el.querySelectorAll("form input")].find(i => !i.value));
+    if (focusEl && !M.busy) setTimeout(() => focusEl.focus(), 30);
+  }
+  function resendLabel() {
+    const b = document.getElementById("acc-resend"); if (!b || !M) return;
+    const s = Math.ceil((M.resendAt - Date.now()) / 1000);
+    b.textContent = s > 0 ? `send a new code (in ${s} s)` : "send a new code";
+    b.disabled = s > 0;
+  }
+  function onInput(e) {
+    const f = e.target.dataset && e.target.dataset.f; if (!f || !M) return;
+    M[f] = e.target.value;
+    const key = f === "cc" ? "phone" : f, box = e.target.closest(".acc-f");
+    if (M.err[key] && !(f === "email" && e.type === "change")) { M.err[key] = ""; if (box) { box.classList.remove("has-err"); box.querySelector(".lead-err").innerHTML = ""; } }
+    if (f === "cc") { const ph = $("#acc-phone"); if (ph) ph.placeholder = M.cc === "IN" ? "10-digit mobile number" : "Mobile number"; }
+  }
+  function setMode(mode) {
+    M.mode = mode; M.err = {}; M.top = ""; M.tone = ""; M.pw = ""; M.pw0 = ""; M.code = ""; M.verified = null; M.busy = false;
+    if (mode === "upgrade") M.askPhone = !splitPhone(S.phone).valid;
+    if (mode === "chgemail") M.email = "";
+    if (mode === "name") M.name = S.name || "";
+    if (mode === "forgot" && user) M.email = user.email;
+    render(true);
+  }
+  async function onClick(e) {
+    if (e.target.classList.contains("acctmodal") && M && PROFILE_MODES.includes(M.mode) && !M.busy) return closeModal();   // tap outside closes the profile menu
+    const b = e.target.closest("[data-act]"); if (!b || !M || M.busy) return;
+    const a = b.dataset.act;
+    if (a === "mode") setMode(b.dataset.m);
+    else if (a === "eye") { M.showPw = !M.showPw; render(); const i = document.getElementById("acc-" + (b.dataset.for || "pw")); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
+    else if (a === "later") { try { sessionStorage.setItem(LATER, "1"); } catch (x) {} closeModal(); }
+    else if (a === "close") closeModal();
+    else if (a === "change") setMode(M.prev === "login" ? "login" : M.prev);
+    else if (a === "sugg-yes") { M.email = b.dataset.v; M.err.email = ""; render(); }
+    else if (a === "sugg-no") { M.noSugg = M.email; M.err.email = ""; render(); }
+    else if (a === "logout" || a === "logout-force") {
+      busy(true);
+      const r = await logout(a === "logout-force");
+      if (r === "unsaved" && M) { M.busy = false; M.tone = ""; M.top = `Some changes aren't saved to your account yet (no internet). <button type="button" class="linkbtn" data-act="logout-force">Log out anyway</button>`; render(); }
+    }
+    else if (a === "resend") {
+      if (Date.now() < M.resendAt) return;
+      M.resendAt = Date.now() + 60000; resendLabel();
+      try {
+        await client();
+        const {error} = M.mode === "reset" ? await sb.auth.resetPasswordForEmail(M.email)
+          : M.mode === "emailcode" ? await sb.auth.resend({type: "email_change", email: M.email})
+          : await sb.auth.resend({type: "signup", email: M.email});
+        if (error) throw error;
+        M.verified = null;
+        M.top = "We've sent you a new code — please use the newest one. In Gmail it may appear inside the earlier email."; M.tone = "info";
+      } catch (x) { M.top = authMsg(x, "resend"); M.tone = ""; }
+      render();
+    }
+  }
+  function busy(v) { M.busy = v; render(); }
+  function fail(msg) { M.top = msg; M.tone = ""; M.busy = false; render(); }
+  async function submit() {
+    if (!M || M.busy) return;
+    M.err = {}; M.top = ""; M.tone = "";
+    const fn = {signup: doSignup, upgrade: doSignup, login: doLogin, code: doVerify, forgot: doForgot, reset: doReset,
+                name: doName, chgpw: doChangePassword, chgemail: doChangeEmail, emailcode: doEmailCode, clear: doClear}[M.mode];
+    if (!fn) return;
+    try { await fn(); }
+    catch (e) { if (M) fail(authMsg(e, ["code", "reset", "emailcode"].includes(M.mode) ? "code" : M.mode)); }
+  }
+  async function doSignup() {
+    const kind = M.mode;
+    const name = (M.askName || kind === "signup" ? M.name : S.name || M.name || "").trim();
+    if ((M.askName || kind === "signup") && !name) M.err.name = "Please type your name.";
+    let ph = null;
+    if (M.askPhone) { const r = phoneCheck(M.cc, M.phone); if (r.err) M.err.phone = r.err; else ph = r; }
+    else { const o = splitPhone(S.phone); ph = {e164: o.cc === "IN" ? "+91" + o.national : S.phone, country: o.cc}; }
+    if ((M.pw || "").length < MIN_PW) M.err.pw = "Please use at least 8 characters.";
+    if (!navigator.onLine) return fail(OFFLINE);
+    busy(true);
+    const ok = await checkEmail(true);
+    if (!ok || Object.values(M.err).some(Boolean)) return busy(false);
+    await client();
+    const meta = {name, phone: ph.e164, country: ph.country, source: kind === "upgrade" ? "old-form" : "signup"};
+    if (COURSE) meta.course = COURSE;
+    const {data, error} = await sb.auth.signUp({email: M.email, password: M.pw, options: {data: meta}});
+    if (error) return fail(authMsg(error, "signup"));
+    if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) { M.err.email = existsMsg(); return busy(false); }
+    M.info = {kind, name, phone: ph.e164, country: ph.country};
+    if (data.session) { user = data.session.user; return finishAccount(); }
+    M.prev = kind; M.mode = "code"; M.code = ""; M.next = "account"; M.resendAt = Date.now() + 60000;
+    busy(false);
+  }
+  async function doVerify() {
+    const code = (M.code || "").replace(/\D/g, "");
+    if (code.length < 6) { M.err.code = "Please type the 6-digit code from the email."; return render(); }
+    if (!navigator.onLine) return fail(OFFLINE);
+    busy(true); await client();
+    let r = await sb.auth.verifyOtp({email: M.email, token: code, type: "email"});
+    if (r.error) { const r2 = await sb.auth.verifyOtp({email: M.email, token: code, type: "signup"}); if (!r2.error) r = r2; }
+    if (r.error) return fail(authMsg(r.error, "code"));
+    user = (r.data.session && r.data.session.user) || r.data.user;
+    if (M.next === "account") return finishAccount();
+    return afterLogin();
+  }
+  async function finishAccount() {
+    const i = M.info;
+    await afterAccount(i);
+    closeModal(); headerBtn();
+    const nm = S.name.split(" ")[0] || "friend";
+    if (!IN_APP) {
+      const c = i.kind === "upgrade" ? localCourse() : null;
+      if (c && FOLDER[c]) {
+        try { const r = await sb.auth.updateUser({data: {course: c}}); if (r && r.data && r.data.user) user = r.data.user; } catch (e) {}
+        toast("Done! Your progress is saved. Opening your plan…", 3000); location.href = FOLDER[c]; return;
+      }
+      toast("All set, " + nm + "! Now pick your course below.", 4500); scrollToCourses(); return;
+    }
+    refreshHeader();
+    if (i.kind === "upgrade") { rememberCourse(); show(currentTab()); toast("Done! Your progress is saved. On a new phone, just log in with your email and password.", 5000); }
+    else { show(S.plan ? currentTab() : "plan"); toast("All set, " + nm + "! Now let's plan your exam.", 4000); }
+  }
+  async function doLogin() {
+    const ok = await checkEmail(false);
+    if (!M.pw) M.err.pw = "Please type your password.";
+    if (!ok || M.err.pw) return render();
+    if (!navigator.onLine) return fail(OFFLINE);
+    busy(true); await client();
+    const {data, error} = await sb.auth.signInWithPassword({email: M.email, password: M.pw});
+    if (error) {
+      if (/not confirmed/i.test(error.message || "")) {
+        try { await sb.auth.resend({type: "signup", email: M.email}); } catch (x) {}
+        M.prev = "login"; M.mode = "code"; M.next = "login"; M.code = ""; M.resendAt = Date.now() + 60000;
+        M.top = "Your email isn't confirmed yet — we've sent you a new code."; M.tone = "info";
+        return busy(false);
+      }
+      return fail(authMsg(error, "login"));
+    }
+    user = data.user;
+    return afterLogin();
+  }
+  async function doForgot() {
+    if (!(await checkEmail(false))) return render();
+    if (!navigator.onLine) return fail(OFFLINE);
+    busy(true); await client();
+    const {error} = await sb.auth.resetPasswordForEmail(M.email);
+    if (error) return fail(authMsg(error, "forgot"));
+    M.mode = "reset"; M.prev = "forgot"; M.code = ""; M.pw = ""; M.resendAt = Date.now() + 60000;
+    busy(false);
+  }
+  async function doReset() {
+    const code = (M.code || "").replace(/\D/g, "");
+    if (code.length < 6) M.err.code = "Please type the 6-digit code from the email.";
+    if ((M.pw || "").length < MIN_PW) M.err.pw = "Please use at least 8 characters.";
+    if (M.err.code || M.err.pw) return render();
+    if (!navigator.onLine) return fail(OFFLINE);
+    busy(true); await client();
+    if (M.verified !== code) {                                           // a code works once; if only the password was rejected, don't re-send the code
+      const r = await sb.auth.verifyOtp({email: M.email, token: code, type: "recovery"});
+      if (r.error) return fail(authMsg(r.error, "code"));
+      user = (r.data.session && r.data.session.user) || r.data.user;
+      M.verified = code;
+    }
+    const u = await sb.auth.updateUser({password: M.pw});
+    if (u.error) return fail(authMsg(u.error, "reset"));
+    return afterLogin("Your new password is saved. Welcome back" + (S.name ? ", " + S.name.split(" ")[0] : "") + "!");
+  }
+
+  /* ---------------- profile actions ---------------- */
+  async function checkCurrentPassword() {
+    if (!M.pw0) { M.err.pw0 = "Please type your current password."; return false; }
+    const {error} = await sb.auth.signInWithPassword({email: user.email, password: M.pw0});
+    if (error) { M.err.pw0 = /invalid login/i.test(error.message || "") ? "Your current password is not correct." : authMsg(error, "login"); return false; }
+    return true;
+  }
+  async function doName() {
+    const name = (M.name || "").trim();
+    if (!name) { M.err.name = "Please type your name."; return render(); }
+    S.name = name;
+    if (IN_APP) save(); persistProfile();
+    if (user && navigator.onLine) {
+      sb.from("students").update({name}).eq("id", user.id).then(() => {}, () => {});
+      sb.auth.updateUser({data: {name}}).then(r => { if (r && r.data && r.data.user) user = r.data.user; }, () => {});
+    }
+    if (IN_APP) refreshHeader(); else headerBtn();
+    setMode("profile"); toast("Your name is saved.");
+  }
+  async function doChangePassword() {
+    if ((M.pw || "").length < MIN_PW) M.err.pw = "Please use at least 8 characters.";
+    if (!M.pw0) M.err.pw0 = "Please type your current password.";
+    if (M.err.pw || M.err.pw0) return render();
+    if (!navigator.onLine) return fail(OFFLINE);
+    busy(true); await client();
+    if (!(await checkCurrentPassword())) return busy(false);
+    const u = await sb.auth.updateUser({password: M.pw});
+    if (u.error) return fail(authMsg(u.error, "reset"));
+    setMode("profile"); toast("Your password is changed.", 3500);
+  }
+  async function doChangeEmail() {
+    if (!navigator.onLine) return fail(OFFLINE);
+    busy(true); await client();
+    const ok = await checkEmail(true);
+    if (ok && user && M.email === (user.email || "").toLowerCase()) M.err.email = "That's already your email.";
+    if (!M.pw0) M.err.pw0 = "Please type your password.";
+    if (!ok || M.err.email || M.err.pw0) return busy(false);
+    if (!(await checkCurrentPassword())) return busy(false);
+    const {error} = await sb.auth.updateUser({email: M.email});
+    if (error) { if (/already|exists|registered/i.test(error.message || "")) { M.err.email = "Another account already uses this email."; return busy(false); } return fail(authMsg(error, "chgemail")); }
+    M.mode = "emailcode"; M.code = ""; M.resendAt = Date.now() + 60000;
+    busy(false);
+  }
+  async function doEmailCode() {
+    const code = (M.code || "").replace(/\D/g, "");
+    if (code.length < 6) { M.err.code = "Please type the 6-digit code from the email."; return render(); }
+    if (!navigator.onLine) return fail(OFFLINE);
+    busy(true); await client();
+    const r = await sb.auth.verifyOtp({email: M.email, token: code, type: "email_change"});
+    if (r.error) return fail(authMsg(r.error, "code"));
+    user = r.data.user || (r.data.session && r.data.session.user) || (await sb.auth.getUser()).data.user;
+    S.email = user.email || M.email; persistProfile();
+    if (IN_APP) save();
+    sb.from("students").update({email: S.email}).eq("id", user.id).then(() => {}, () => {});
+    sendLead({name: S.name, phone: S.phone, email: S.email, account: "Yes"}).catch(() => {});
+    setMode("profile"); toast("Your email is now " + S.email + ".", 4000);
+  }
+  function doClear() {
+    if (!IN_APP) return;
+    S = {name: S.name, phone: S.phone, email: S.email, leadSent: S.leadSent, days: {}, scores: {}, tests: {}, rating: {}, seenBadges: [],
+         plan: S.plan ? {settings: S.plan.settings, from: null, remain: {}, mocksDone: 0, frozen: []} : null};
+    save(); flush(); regen(); selDay = defaultDay();
+    prevBadges = new Set(badgeList().filter(b => b[3]).map(b => b[1]));
+    closeModal(); refreshHeader(); show(currentTab()); toast("Your progress is cleared.");
+  }
+
+  /* ---------------- header button ---------------- */
+  function statusText() {
+    if (!navigator.onLine) return "You're offline — your changes will be saved to your account when you're back online.";
+    if (IN_APP && getMeta(COURSE).dirty) return lastErr ? "Couldn't save to your account just now — we'll keep trying." : "Saving to your account…";
+    return "✓ Your progress is saved to your account" + (lastSaved ? " (last saved " + new Date(lastSaved).toLocaleTimeString("en-IN", {hour: "numeric", minute: "2-digit"}) + ")." : ".");
+  }
+  function statusRefresh() { const el = document.getElementById("acctstatus"); if (el) el.textContent = statusText(); }
+  function headerBtn() {
+    const slot = document.getElementById("profslot"); if (!slot) return;
+    let h;
+    if (user) {
+      const nm = (S.name || user.email || "?").trim(), c = myCourse();
+      h = (!IN_APP && c ? `<a class="btn gold" href="${FOLDER[c]}">Go to my plan</a>` : "")
+        + `<button type="button" class="profbtn" id="profbtn" aria-label="Your profile" title="Your profile"><span class="av">${esc(nm.charAt(0).toUpperCase())}</span><span class="pn">${esc(nm.split(/[\s@]/)[0])}</span></button>`;
+    } else if (IN_APP) {
+      h = `<button type="button" class="btn ${registered() ? "gold" : "ghost"}" id="proflogin">${registered() ? "Save my progress" : "Log in"}</button>`;
+    } else {
+      h = `<button type="button" class="btn ghost" id="proflogin">Log in</button><button type="button" class="btn gold" id="profsignup">Sign up</button>`;
+    }
+    if (slot.innerHTML !== h) slot.innerHTML = h;
+    const pb = document.getElementById("profbtn"), pl = document.getElementById("proflogin"), ps = document.getElementById("profsignup");
+    if (pb) pb.onclick = () => openModal("profile", {canLater: true});
+    if (pl) pl.onclick = () => openModal(IN_APP && registered() ? "upgrade" : "login", {canLater: true});
+    if (ps) ps.onclick = () => openModal(registered() ? "upgrade" : "signup", {canLater: true});
+  }
+
+  /* ---------------- start ---------------- */
+  function maybePrompt() {
+    if (user || M || document.querySelector(".modal") || !navigator.onLine) return;
+    if (registered()) { let later = false; try { later = !!sessionStorage.getItem(LATER); } catch (e) {} if (!later) openModal("upgrade"); }
+    else if (IN_APP) openModal("signup");                              // new students sign up after choosing their course
+  }
+  function savedSessionCourse() {
+    try { const s = JSON.parse(localStorage.getItem(SB_SESSION)); const u = (s && (s.user || (s.currentSession && s.currentSession.user))) || null; return u && u.user_metadata && u.user_metadata.course; }
+    catch (e) { return null; }
+  }
+  async function boot() {
+    if (!IN_APP && !/[?&]courses\b/.test(location.search)) {           // logged-in student on the home page: go straight to their plan
+      const c = savedSessionCourse();
+      if (c && FOLDER[c]) { location.replace(FOLDER[c]); return; }
+    }
+    addEventListener("online", () => { if (user) syncDirty(); else maybePrompt(); statusRefresh(); });
+    addEventListener("offline", statusRefresh);
+    if (IN_APP) document.addEventListener("visibilitychange", () => {
+      if (!user) return;
+      if (document.visibilityState === "hidden" && getMeta(COURSE).dirty) push(COURSE).catch(() => {});
+      if (document.visibilityState === "visible") pull(COURSE).catch(() => {});
+    });
+    headerBtn();
+    let hasSession = false; try { hasSession = !!localStorage.getItem(SB_SESSION); } catch (e) {}
+    if (!hasSession) { if (navigator.onLine) client().catch(() => {}); maybePrompt(); return; }
+    try { await client(); const {data} = await sb.auth.getSession(); user = data.session ? data.session.user : null; } catch (e) { return; }
+    headerBtn();
+    if (!user) { maybePrompt(); return; }
+    sb.auth.onAuthStateChange((ev, s) => { if (ev === "SIGNED_OUT") { user = null; headerBtn(); } else if (s) user = s.user; });
+    if (!IN_APP) return;
+    rememberCourse();
+    try { await pull(COURSE); await syncDirty(); } catch (e) {}
+    statusRefresh();
+  }
+  return {boot, changed, headerBtn, open: openModal, loggedIn: () => !!user, _merge: merge, _phoneCheck: phoneCheck, _suggest: suggest};
+})();
+
+ACC.boot();
+</script>
 <script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
 </body>
 </html>
